@@ -1,0 +1,3 @@
+[submodule "tests/ruby-c-extension-examples"]
+	path = tests/ruby-c-extension-examples
+	url = https://github.com/SketchUp/ruby-c-extension-examples

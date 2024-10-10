@@ -1,0 +1,23 @@
+---
+BasedOnStyle: Microsoft
+UseTab: ForContinuationAndIndentation
+TabWidth: 4
+AccessModifierOffset: 0
+IndentPPDirectives: BeforeHash
+ColumnLimit: 160
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: AlwaysBreak
+AlignOperands: DontAlign
+PointerAlignment: Left
+SortIncludes: false
+SortUsingDeclarations: false
+NamespaceIndentation: All
+InsertBraces: true
+InsertNewlineAtEOF: true
+WhitespaceSensitiveMacros:
+  - DEFINE_WRAPPED_METHOD
+  - DEFINE_WRAPPED_METHOD_0
+  - IMPLEMENT_WRAPPED_METHOD
+  - IMPLEMENT_WRAPPED_METHOD_0
+  - INIT_HANDLER_FOR_EVENT
