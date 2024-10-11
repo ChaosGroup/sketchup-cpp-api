@@ -100,7 +100,7 @@ if(MSVC)
 	)
 	# treat all warnings as errors in out code base
 	target_compile_options(${PROJECT_NAME} INTERFACE
-		/Wall /WX /wd4371 /wd4710 /wd4711 /wd5045
+		/Wall /WX /wd4371 /wd4710 /wd4711 /wd5045 /wd4702
 	)
 else()
 	# ignore Ruby lib's warnings
