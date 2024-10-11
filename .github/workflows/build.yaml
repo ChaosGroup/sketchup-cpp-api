@@ -50,6 +50,11 @@ jobs:
     # install Ninja
     - uses: seanmiddleditch/gha-setup-ninja@master
 
+    # Set up MSVC compiler
+    - name: Set up MSVC
+      if: matrix.cpp_compiler == 'cl'
+      uses: ilammy/msvc-dev-cmd@v1
+
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
