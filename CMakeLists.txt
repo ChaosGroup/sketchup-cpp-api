@@ -48,14 +48,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_XCODE_GENERATE_SCHEME ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME}${SKETCHUP_VERSION} INTERFACE)
 
 # Ruby library so we can ignore any warnings coming from there
-add_library(RubyLib INTERFACE)
-target_include_directories(RubyLib INTERFACE ${Ruby_INCLUDE_DIRS})
-target_link_libraries(RubyLib INTERFACE ${Ruby_LIBRARIES})
+add_library(RubyLib${SKETCHUP_VERSION} INTERFACE)
+target_include_directories(RubyLib${SKETCHUP_VERSION} INTERFACE ${Ruby_INCLUDE_DIRS})
+target_link_libraries(RubyLib${SKETCHUP_VERSION} INTERFACE ${Ruby_LIBRARIES})
 
 set(BUILD_INTENT dev CACHE STRING "Type of build. Can be dev|sonar")
+
 if(${BUILD_INTENT} MATCHES "sonar")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 endif()
@@ -95,29 +96,32 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sonar-project.properties "\
 
 if(MSVC)
 	# ignore Ruby lib's warnings
-	target_compile_options(RubyLib INTERFACE
+	target_compile_options(RubyLib${SKETCHUP_VERSION} INTERFACE
 		/W0
 	)
+
 	# treat all warnings as errors in out code base
-	target_compile_options(${PROJECT_NAME} INTERFACE
+	target_compile_options(${PROJECT_NAME}${SKETCHUP_VERSION} INTERFACE
 		/Wall /WX /wd4371 /wd4710 /wd4711 /wd5045 /wd4702
 	)
 else()
 	# ignore Ruby lib's warnings
-	target_compile_options(RubyLib INTERFACE
+	target_compile_options(RubyLib${SKETCHUP_VERSION} INTERFACE
 		-w
 	)
+
 	# treat all warnings as errors in out code base
-	target_compile_options(${PROJECT_NAME} INTERFACE
+	target_compile_options(${PROJECT_NAME}${SKETCHUP_VERSION} INTERFACE
+
 		# rest are treated as errors
 		-Wall -Wextra -Werror
 	)
 endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE
-	${CMAKE_SOURCE_DIR}
+target_include_directories(${PROJECT_NAME}${SKETCHUP_VERSION} INTERFACE
+	${CMAKE_CURRENT_SOURCE_DIR}
 )
-target_link_libraries(${PROJECT_NAME} INTERFACE RubyLib)
+target_link_libraries(${PROJECT_NAME}${SKETCHUP_VERSION} INTERFACE RubyLib${SKETCHUP_VERSION})
 
 add_subdirectory(build_utils/scripts)
 
