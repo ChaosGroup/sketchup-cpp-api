@@ -303,6 +303,9 @@ class Length : public RubyUtils::details::IObject, public RubyUtils::details::Na
 	inline Length(VALUE obj) : IObject(obj)
 	{
 	}
+	inline Length(double obj) : IObject(std::to_string(obj))
+	{
+	}
 	inline Length(const IObject& obj) : IObject(obj)
 	{
 	}
