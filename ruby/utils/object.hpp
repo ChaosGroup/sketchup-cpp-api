@@ -130,16 +130,16 @@ namespace RubyUtils
 				{
 					if constexpr (std::is_signed_v<cleaned_T>)
 					{
-						return RB_LONG2NUM(val);
+						return RB_LONG2NUM(static_cast<long>(val));
 					}
 					else
 					{
-						return RB_ULONG2NUM(val);
+						return RB_ULONG2NUM(static_cast<unsigned long>(val));
 					}
 				}
 				else if constexpr (RubyType == ruby_value_type::RUBY_T_FLOAT)
 				{
-					return rb_float_new(val);
+					return rb_float_new(static_cast<double>(val));
 				}
 				else if constexpr (RubyType == ruby_value_type::RUBY_T_STRING)
 				{
