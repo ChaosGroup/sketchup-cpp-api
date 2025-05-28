@@ -36,6 +36,16 @@ class Geom
 		{
 		}
 	};
+	class Bounds2d : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Geom::Bounds2d">
+	{
+		public:
+		inline Bounds2d(VALUE obj) : IObject(obj)
+		{
+		}
+		inline Bounds2d(const IObject& obj) : IObject(obj)
+		{
+		}
+	};
 	class Point3d : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Geom::Point3d">
 	{
 		public:

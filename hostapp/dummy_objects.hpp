@@ -1,5 +1,27 @@
 #pragma once
 
+class PickHelper : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::PickHelper">
+{
+	public:
+	inline PickHelper(VALUE obj) : IObject(obj)
+	{
+	}
+	inline PickHelper(const IObject& obj) : IObject(obj)
+	{
+	}
+};
+
+class Camera : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::Camera">
+{
+	public:
+	inline Camera(VALUE obj) : IObject(obj)
+	{
+	}
+	inline Camera(const IObject& obj) : IObject(obj)
+	{
+	}
+};
+
 class ImageRep : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::ImageRep">
 {
 	public:
@@ -99,16 +121,16 @@ class ComponentDefinition : public RubyUtils::details::IObject, public RubyUtils
 	}
 };
 
-class View : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::View">
-{
-	public:
-	inline View(VALUE obj) : IObject(obj)
-	{
-	}
-	inline View(const IObject& obj) : IObject(obj)
-	{
-	}
-};
+// class View : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::View">
+// {
+// 	public:
+// 	inline View(VALUE obj) : IObject(obj)
+// 	{
+// 	}
+// 	inline View(const IObject& obj) : IObject(obj)
+// 	{
+// 	}
+// };
 
 class Text : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::Text">
 {
