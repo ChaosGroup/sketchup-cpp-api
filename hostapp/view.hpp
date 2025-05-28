@@ -53,6 +53,10 @@ public:
         WriteImageOptionSet::compression
     >;
 
+	inline View(VALUE arg) : IObject(arg)
+	{
+	}
+
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#add_observer-instance_method
 	 *
