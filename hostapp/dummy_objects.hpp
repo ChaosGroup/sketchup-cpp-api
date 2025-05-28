@@ -121,17 +121,6 @@ class ComponentDefinition : public RubyUtils::details::IObject, public RubyUtils
 	}
 };
 
-// class View : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::View">
-// {
-// 	public:
-// 	inline View(VALUE obj) : IObject(obj)
-// 	{
-// 	}
-// 	inline View(const IObject& obj) : IObject(obj)
-// 	{
-// 	}
-// };
-
 class Text : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::Text">
 {
 	public:
