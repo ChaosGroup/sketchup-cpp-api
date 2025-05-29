@@ -31,8 +31,8 @@ namespace RubyUtils
 
 		template <concepts::Key key> inline void copy_if_exists(VALUE from) noexcept
 		{
-			ID ruby_key = ID2SYM(rb_intern(key::key().data()));
-			VALUE val = rb_hash_aref(from, ID2SYM(ruby_key));
+			VALUE ruby_key = ID2SYM(rb_intern(key::key().data()));
+			VALUE val = rb_hash_aref(from, ruby_key);
 			if (val != Qnil)
 			{
 				rb_hash_aset(value, ruby_key, val);
