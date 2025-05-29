@@ -6,52 +6,52 @@
 class View : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::View">
 {
 public:
-    static constexpr int TextAlignLeft = 0;
-    static constexpr int TextAlignRight = 2;
-    static constexpr int TextAlignCenter = 1;
-    static constexpr int TextVerticalAlignBoundsTop = 0;
-    static constexpr int TextVerticalAlignBaseline = 1;
-    static constexpr int TextVerticalAlignCapHeight = 2;
-    static constexpr int TextVerticalAlignCenter = 3;
+	 static constexpr int TextAlignLeft = 0;
+	 static constexpr int TextAlignRight = 2;
+	 static constexpr int TextAlignCenter = 1;
+	 static constexpr int TextVerticalAlignBoundsTop = 0;
+	 static constexpr int TextVerticalAlignBaseline = 1;
+	 static constexpr int TextVerticalAlignCapHeight = 2;
+	 static constexpr int TextVerticalAlignCenter = 3;
 
-    using DrawOptions = RubyUtils::Hash<
-        DrawOptionSet::normals,
-        DrawOptionSet::texture,
-        DrawOptionSet::uvs
-    >;
+	 using DrawOptions = RubyUtils::Hash<
+	 	 DrawOptionSet::normals,
+	 	 DrawOptionSet::texture,
+	 	 DrawOptionSet::uvs
+	 >;
 
-    using Draw2dOptions = RubyUtils::Hash<
-        Draw2dOptionSet::texture,
-        Draw2dOptionSet::uvs
-    >;
+	 using Draw2dOptions = RubyUtils::Hash<
+	 	 Draw2dOptionSet::texture,
+	 	 Draw2dOptionSet::uvs
+	 >;
 
-    using DrawTextOptions = RubyUtils::Hash<
-        DrawTextOptionSet::font,
-        DrawTextOptionSet::size,
-        DrawTextOptionSet::pixel_size,
-        DrawTextOptionSet::point_size,
-        DrawTextOptionSet::bold,
-        DrawTextOptionSet::italic,
-        DrawTextOptionSet::color,
-        DrawTextOptionSet::align,
-        DrawTextOptionSet::vertical_align
-    >;
+	 using DrawTextOptions = RubyUtils::Hash<
+	 	 DrawTextOptionSet::font,
+	 	 DrawTextOptionSet::size,
+	 	 DrawTextOptionSet::pixel_size,
+	 	 DrawTextOptionSet::point_size,
+	 	 DrawTextOptionSet::bold,
+	 	 DrawTextOptionSet::italic,
+	 	 DrawTextOptionSet::color,
+	 	 DrawTextOptionSet::align,
+	 	 DrawTextOptionSet::vertical_align
+	 >;
 
-    using WriteImage1Options = RubyUtils::Hash<
-        WriteImageOptionSet::filename,
-        WriteImageOptionSet::width,
-        WriteImageOptionSet::height,
-        WriteImageOptionSet::scale_factor,
-        WriteImageOptionSet::antialias,
-        WriteImageOptionSet::compression,
-        WriteImageOptionSet::transparent
-    >;
+	 using WriteImage1Options = RubyUtils::Hash<
+	 	 WriteImageOptionSet::filename,
+	 	 WriteImageOptionSet::width,
+	 	 WriteImageOptionSet::height,
+	 	 WriteImageOptionSet::scale_factor,
+	 	 WriteImageOptionSet::antialias,
+	 	 WriteImageOptionSet::compression,
+	 	 WriteImageOptionSet::transparent
+	 >;
 
-    using WriteImage2Options = RubyUtils::Hash<
-        WriteImageOptionSet::filename,
-        WriteImageOptionSet::source,
-        WriteImageOptionSet::compression
-    >;
+	 using WriteImage2Options = RubyUtils::Hash<
+	 	 WriteImageOptionSet::filename,
+	 	 WriteImageOptionSet::source,
+	 	 WriteImageOptionSet::compression
+	 >;
 
 	inline View(VALUE arg) : IObject(arg)
 	{
@@ -481,173 +481,173 @@ public:
 	 */
 	DEFINE_WRAPPED_METHOD(RubyUtils::tuple<Geom::Point3d DEFINE_WRAPPED_METHOD_COMMA Geom::Vector3d>, pickray, (RubyUtils::tuple<double, double> screen_point), pickray, screen_point)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
-    * 
-    * @param x read https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
-    * @param y read https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
-    * @return RubyUtils::tuple<Geom::Point3d, Geom::Vector3d> read https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
-    * @min_version SketchUp 2025.0SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(RubyUtils::tuple<Geom::Point3d DEFINE_WRAPPED_METHOD_COMMA Geom::Vector3d>, pickray, (double x, double y), pickray, x, y)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
+	 * 
+	 * @param x read https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
+	 * @param y read https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
+	 * @return RubyUtils::tuple<Geom::Point3d, Geom::Vector3d> read https://ruby.sketchup.com/Sketchup/View.html#pickray-instance_method
+	 * @min_version SketchUp 2025.0SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(RubyUtils::tuple<Geom::Point3d DEFINE_WRAPPED_METHOD_COMMA Geom::Vector3d>, pickray, (double x, double y), pickray, x, y)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
-    * 
-    * @param pixels read https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
-    * @param point read https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
-    * @return double read https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(double, pixels_to_model, (double pixels, Geom::Point3d point), pixels_to_model, pixels, point)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
+	 * 
+	 * @param pixels read https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
+	 * @param point read https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
+	 * @return double read https://ruby.sketchup.com/Sketchup/View.html#pixels_to_model-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(double, pixels_to_model, (double pixels, Geom::Point3d point), pixels_to_model, pixels, point)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#refresh-instance_method
-    * 
-    * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#refresh-instance_method
-    * @min_version SketchUp 7.1
-    */
-    DEFINE_WRAPPED_METHOD_0(Sketchup::View, refresh, refresh)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#refresh-instance_method
+	 * 
+	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#refresh-instance_method
+	 * @min_version SketchUp 7.1
+	 */
+	 DEFINE_WRAPPED_METHOD_0(Sketchup::View, refresh, refresh)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#release_texture-instance_method
-    * 
-    * @param texture_id read https://ruby.sketchup.com/Sketchup/View.html#release_texture-instance_method
-    * @return bool read https://ruby.sketchup.com/Sketchup/View.html#release_texture-instance_method
-    * @min_version 
-    */
-    DEFINE_WRAPPED_METHOD(bool, release_texture, (long long texture_id), release_texture, texture_id)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#release_texture-instance_method
+	 * 
+	 * @param texture_id read https://ruby.sketchup.com/Sketchup/View.html#release_texture-instance_method
+	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#release_texture-instance_method
+	 * @min_version 
+	 */
+	 DEFINE_WRAPPED_METHOD(bool, release_texture, (long long texture_id), release_texture, texture_id)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
-    * 
-    * @param observer read https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
-    * @return bool read https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(bool, remove_observer, (RubyUtils::details::IObject observer), remove_observer, observer)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
+	 * 
+	 * @param observer read https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
+	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(bool, remove_observer, (RubyUtils::details::IObject observer), remove_observer, observer)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
-    * 
-    * @param model_point read https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
-    * @return Geom::Point3d read https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
-    * @min_version SketchUp 2025.0SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(Geom::Point3d, screen_coords, (Geom::Point3d model_point), screen_coords, model_point)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
+	 * 
+	 * @param model_point read https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
+	 * @return Geom::Point3d read https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
+	 * @min_version SketchUp 2025.0SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(Geom::Point3d, screen_coords, (Geom::Point3d model_point), screen_coords, model_point)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
-    * 
-    * @param point1 read https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
-    * @param point2 read https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
-    * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(Sketchup::View, set_color_from_line, (Geom::Point3d point1, Geom::Point3d point2), set_color_from_line, point1, point2)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
+	 * 
+	 * @param point1 read https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
+	 * @param point2 read https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
+	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#set_color_from_line-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(Sketchup::View, set_color_from_line, (Geom::Point3d point1, Geom::Point3d point2), set_color_from_line, point1, point2)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#show_frame-instance_method
-    * 
-    * @param delay read https://ruby.sketchup.com/Sketchup/View.html#show_frame-instance_method
-    * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#show_frame-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(Sketchup::View, show_frame, (double delay), show_frame, delay)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#show_frame-instance_method
+	 * 
+	 * @param delay read https://ruby.sketchup.com/Sketchup/View.html#show_frame-instance_method
+	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#show_frame-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(Sketchup::View, show_frame, (double delay), show_frame, delay)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
-    * 
-    * @param point read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
-    * @param text read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
-    * @param options read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
-    * @return Geom::Bounds2d read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
-    * @min_version SketchUp 2020.0
-    */
-    DEFINE_WRAPPED_METHOD(Geom::Bounds2d, text_bounds, (Geom::Point3d point, std::string text, DrawTextOptions options), text_bounds, point, text, options)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
+	 * 
+	 * @param point read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
+	 * @param text read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
+	 * @param options read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
+	 * @return Geom::Bounds2d read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
+	 * @min_version SketchUp 2020.0
+	 */
+	 DEFINE_WRAPPED_METHOD(Geom::Bounds2d, text_bounds, (Geom::Point3d point, std::string text, DrawTextOptions options), text_bounds, point, text, options)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
-    * 
-    * @param string read https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
-    * @return std::string read https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(std::string, set_tooltip, (std::string string), tooltip=, string)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
+	 * 
+	 * @param string read https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
+	 * @return std::string read https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(std::string, set_tooltip, (std::string string), tooltip=, string)
 
 #if SKETCHUP_VERSION >= 2025
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
-    * 
-    * @return double read https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
-    * @min_version SketchUp 2025.0
-    */
-    DEFINE_WRAPPED_METHOD_0(double, vpheight, vpheight)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
+	 * 
+	 * @return double read https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
+	 * @min_version SketchUp 2025.0
+	 */
+	 DEFINE_WRAPPED_METHOD_0(double, vpheight, vpheight)
 #else
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
-    * 
-    * @return long long read https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD_0(long long, vpheight, vpheight)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
+	 * 
+	 * @return long long read https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD_0(long long, vpheight, vpheight)
 #endif
 
 #if SKETCHUP_VERSION >= 2025
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
-    * 
-    * @return double read https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
-    * @min_version SketchUp 2025.0
-    */
-    DEFINE_WRAPPED_METHOD_0(double, vpwidth, vpwidth)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
+	 * 
+	 * @return double read https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
+	 * @min_version SketchUp 2025.0
+	 */
+	 DEFINE_WRAPPED_METHOD_0(double, vpwidth, vpwidth)
 #else
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
-    * 
-    * @return long long read https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD_0(long long, vpwidth, vpwidth)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
+	 * 
+	 * @return long long read https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD_0(long long, vpwidth, vpwidth)
 #endif
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * 
-    * @param filename read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @param width read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @param height read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @param antialias read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @param compression read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @return bool read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @min_version 
-    */
-    DEFINE_WRAPPED_METHOD(bool, write_image, (std::string filename, long long width, long long height, bool antialias = false, double compression = 0.0), write_image, filename, width, height, antialias, compression)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * 
+	 * @param filename read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @param width read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @param height read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @param antialias read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @param compression read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @min_version 
+	 */
+	 DEFINE_WRAPPED_METHOD(bool, write_image, (std::string filename, long long width, long long height, bool antialias = false, double compression = 0.0), write_image, filename, width, height, antialias, compression)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * 
-    * @param options read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @return bool read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
-    * @min_version SketchUp 7SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(bool, write_image, (WriteImage1Options options), write_image, options)
-    DEFINE_WRAPPED_METHOD(bool, write_image, (WriteImage2Options options), write_image, options)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * 
+	 * @param options read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
+	 * @min_version SketchUp 7SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(bool, write_image, (WriteImage1Options options), write_image, options)
+	 DEFINE_WRAPPED_METHOD(bool, write_image, (WriteImage2Options options), write_image, options)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#zoom-instance_method
-    * 
-    * @param zoom_or_ents read https://ruby.sketchup.com/Sketchup/View.html#zoom-instance_method
-    * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#zoom-instance_method
-    * @min_version SketchUp 6.0
-    */
-    DEFINE_WRAPPED_METHOD(Sketchup::View, zoom, (RubyUtils::any_of<double, Sketchup::Selection, Sketchup::Entity, RubyUtils::Enumerable<Sketchup::Entity>> zoom_or_ents), zoom, zoom_or_ents)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#zoom-instance_method
+	 * 
+	 * @param zoom_or_ents read https://ruby.sketchup.com/Sketchup/View.html#zoom-instance_method
+	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#zoom-instance_method
+	 * @min_version SketchUp 6.0
+	 */
+	 DEFINE_WRAPPED_METHOD(Sketchup::View, zoom, (RubyUtils::any_of<double, Sketchup::Selection, Sketchup::Entity, RubyUtils::Enumerable<Sketchup::Entity>> zoom_or_ents), zoom, zoom_or_ents)
 
-    /**
-    * @brief https://ruby.sketchup.com/Sketchup/View.html#zoom_extents-instance_method
-    * 
-    * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#zoom_extents-instance_method
-    * @min_version 
-    */
-    DEFINE_WRAPPED_METHOD_0(Sketchup::View, zoom_extents, zoom_extents)
+	 /**
+	 * @brief https://ruby.sketchup.com/Sketchup/View.html#zoom_extents-instance_method
+	 * 
+	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#zoom_extents-instance_method
+	 * @min_version 
+	 */
+	 DEFINE_WRAPPED_METHOD_0(Sketchup::View, zoom_extents, zoom_extents)
 };

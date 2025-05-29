@@ -509,14 +509,15 @@ namespace HostApp
     */
     IMPLEMENT_WRAPPED_METHOD(Sketchup::View, std::string, set_tooltip, (std::string string), tooltip=, string)
 
+#if SKETCHUP_VERSION >= 2025
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
     * 
     * @return double read https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
-    * @min_version SketchUp 2025.0SketchUp 6.0
+    * @min_version SketchUp 2025.0
     */
-    //IMPLEMENT_WRAPPED_METHOD_0(Sketchup::View, double, vpheight, vpheight)
-
+    IMPLEMENT_WRAPPED_METHOD_0(Sketchup::View, double, vpheight, vpheight)
+#else
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#vpheight-instance_method
     * 
@@ -524,15 +525,17 @@ namespace HostApp
     * @min_version SketchUp 6.0
     */
     IMPLEMENT_WRAPPED_METHOD_0(Sketchup::View, long long, vpheight, vpheight)
+#endif
 
+#if SKETCHUP_VERSION >= 2025
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
     * 
     * @return double read https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
-    * @min_version SketchUp 2025.0SketchUp 6.0
+    * @min_version SketchUp 2025.0
     */
-    //IMPLEMENT_WRAPPED_METHOD_0(Sketchup::View, double, vpwidth, vpwidth)
-
+    IMPLEMENT_WRAPPED_METHOD_0(Sketchup::View, double, vpwidth, vpwidth)
+#else
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#vpwidth-instance_method
     * 
@@ -540,6 +543,7 @@ namespace HostApp
     * @min_version SketchUp 6.0
     */
     IMPLEMENT_WRAPPED_METHOD_0(Sketchup::View, long long, vpwidth, vpwidth)
+#endif
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
