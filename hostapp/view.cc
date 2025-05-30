@@ -7,7 +7,7 @@ namespace HostApp
     * @return bool read https://ruby.sketchup.com/Sketchup/View.html#add_observer-instance_method
     * @min_version SketchUp 6.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, bool, add_observer, (RubyUtils::details::IObject observer), add_observer, observer)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, bool, add_observer, (Sketchup::ViewObserver observer), add_observer, observer)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#animation=-instance_method
@@ -114,7 +114,7 @@ namespace HostApp
     * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw-instance_method
     * @min_version 
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw, openglenum, points)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw, (Sketchup::View::GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw, static_cast<long long>(openglenum), points)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#draw-instance_method
@@ -125,7 +125,7 @@ namespace HostApp
     * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw-instance_method
     * @min_version SketchUp 2020.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points, DrawOptions options), draw, openglenum, points, options)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw, (Sketchup::View::GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points, DrawOptions options), draw, static_cast<long long>(openglenum), points, options)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
@@ -135,7 +135,7 @@ namespace HostApp
     * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
     * @min_version 
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw2d, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw2d, openglenum, points)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw2d, (Sketchup::View::GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw2d, static_cast<long long>(openglenum), points)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
@@ -146,7 +146,7 @@ namespace HostApp
     * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
     * @min_version SketchUp 2020.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw2d, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points, Draw2dOptions options), draw2d, openglenum, points, options)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw2d, (Sketchup::View::GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points, Draw2dOptions options), draw2d, static_cast<long long>(openglenum), points, options)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#draw_lines-instance_method
@@ -186,7 +186,7 @@ namespace HostApp
     * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw_text-instance_method
     * @min_version SketchUp 6.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw_text, (Geom::Point3d point, std::string text), draw_text, point, text)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw_text, (Geom::Point3d point, const std::string& text), draw_text, point, text)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#draw_text-instance_method
@@ -198,7 +198,7 @@ namespace HostApp
     * @min_version SketchUp 2016
     * @note Known Bugs: Prior to SU2022.0, on macOS, the vertical text alignment for some fonts could appear to be offset from their expected positions. As of SU2022.0 the vertical alignment should be more accurate and consistent.
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw_text, (Geom::Point3d point, std::string text, DrawTextOptions options), draw_text, point, text, options)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, draw_text, (Geom::Point3d point, const std::string& text, DrawTextOptions options), draw_text, point, text, options)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#drawing_color=-instance_method
@@ -321,7 +321,7 @@ namespace HostApp
     * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#line_stipple=-instance_method
     * @min_version SketchUp 6.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, set_line_stipple, (std::string pattern), line_stipple=, pattern)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Sketchup::View, set_line_stipple, (const std::string& pattern), line_stipple=, pattern)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#line_width=-instance_method
@@ -459,7 +459,7 @@ namespace HostApp
     * @return bool read https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
     * @min_version SketchUp 6.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, bool, remove_observer, (RubyUtils::details::IObject observer), remove_observer, observer)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, bool, remove_observer, (Sketchup::ViewObserver observer), remove_observer, observer)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
@@ -498,7 +498,7 @@ namespace HostApp
     * @return Geom::Bounds2d read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
     * @min_version SketchUp 2020.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Geom::Bounds2d, text_bounds, (Geom::Point3d point, std::string text, DrawTextOptions options), text_bounds, point, text, options)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, Geom::Bounds2d, text_bounds, (Geom::Point3d point, const std::string& text, DrawTextOptions options), text_bounds, point, text, options)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
@@ -507,7 +507,7 @@ namespace HostApp
     * @return std::string read https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
     * @min_version SketchUp 6.0
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, std::string, set_tooltip, (std::string string), tooltip=, string)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, std::string, set_tooltip, (const std::string& string), tooltip=, string)
 
 #if SKETCHUP_VERSION >= 2025
     /**
@@ -556,7 +556,7 @@ namespace HostApp
     * @return bool read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
     * @min_version 
     */
-    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, bool, write_image, (std::string filename, long long width, long long height, bool antialias, double compression), write_image, filename, width, height, antialias, compression)
+    IMPLEMENT_WRAPPED_METHOD(Sketchup::View, bool, write_image, (const std::string& filename, long long width, long long height, bool antialias, double compression), write_image, filename, width, height, antialias, compression)
 
     /**
     * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method

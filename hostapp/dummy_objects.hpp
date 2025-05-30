@@ -1,5 +1,16 @@
 #pragma once
 
+class ViewObserver : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::ViewObserver">
+{
+	public:
+	inline ViewObserver(VALUE obj) : IObject(obj)
+	{
+	}
+	inline ViewObserver(const IObject& obj) : IObject(obj)
+	{
+	}
+};
+
 class PickHelper : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::PickHelper">
 {
 	public:

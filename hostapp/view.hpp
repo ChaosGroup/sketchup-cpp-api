@@ -6,52 +6,66 @@
 class View : public RubyUtils::details::IObject, public RubyUtils::details::NamedRubyWrapper<"Sketchup::View">
 {
 public:
-	 static constexpr int TextAlignLeft = 0;
-	 static constexpr int TextAlignRight = 2;
-	 static constexpr int TextAlignCenter = 1;
-	 static constexpr int TextVerticalAlignBoundsTop = 0;
-	 static constexpr int TextVerticalAlignBaseline = 1;
-	 static constexpr int TextVerticalAlignCapHeight = 2;
-	 static constexpr int TextVerticalAlignCenter = 3;
+	static constexpr int TextAlignLeft = 0;
+	static constexpr int TextAlignRight = 2;
+	static constexpr int TextAlignCenter = 1;
+	static constexpr int TextVerticalAlignBoundsTop = 0;
+	static constexpr int TextVerticalAlignBaseline = 1;
+	static constexpr int TextVerticalAlignCapHeight = 2;
+	static constexpr int TextVerticalAlignCenter = 3;
 
-	 using DrawOptions = RubyUtils::Hash<
-	 	 DrawOptionSet::normals,
-	 	 DrawOptionSet::texture,
-	 	 DrawOptionSet::uvs
-	 >;
+	enum GLOptions : long long
+	{
+		GL_POINTS = 0,
+		GL_LINES = 1,
+		GL_LINE_STRIP = 3,
+		GL_LINE_LOOP = 2,
+		GL_TRIANGLES = 4,
+		GL_TRIANGLE_STRIP = 5,
+		GL_TRIANGLE_FAN = 6,
+		GL_QUADS = 7,
+		GL_QUAD_STRIP = 8,
+		GL_POLYGON = 9
+	};
 
-	 using Draw2dOptions = RubyUtils::Hash<
-	 	 Draw2dOptionSet::texture,
-	 	 Draw2dOptionSet::uvs
-	 >;
+	using DrawOptions = RubyUtils::Hash<
+		DrawOptionSet::normals,
+		DrawOptionSet::texture,
+		DrawOptionSet::uvs
+	>;
 
-	 using DrawTextOptions = RubyUtils::Hash<
-	 	 DrawTextOptionSet::font,
-	 	 DrawTextOptionSet::size,
-	 	 DrawTextOptionSet::pixel_size,
-	 	 DrawTextOptionSet::point_size,
-	 	 DrawTextOptionSet::bold,
-	 	 DrawTextOptionSet::italic,
-	 	 DrawTextOptionSet::color,
-	 	 DrawTextOptionSet::align,
-	 	 DrawTextOptionSet::vertical_align
-	 >;
+	using Draw2dOptions = RubyUtils::Hash<
+		Draw2dOptionSet::texture,
+		Draw2dOptionSet::uvs
+	>;
 
-	 using WriteImage1Options = RubyUtils::Hash<
-	 	 WriteImageOptionSet::filename,
-	 	 WriteImageOptionSet::width,
-	 	 WriteImageOptionSet::height,
-	 	 WriteImageOptionSet::scale_factor,
-	 	 WriteImageOptionSet::antialias,
-	 	 WriteImageOptionSet::compression,
-	 	 WriteImageOptionSet::transparent
-	 >;
+	using DrawTextOptions = RubyUtils::Hash<
+		DrawTextOptionSet::font,
+		DrawTextOptionSet::size,
+		DrawTextOptionSet::pixel_size,
+		DrawTextOptionSet::point_size,
+		DrawTextOptionSet::bold,
+		DrawTextOptionSet::italic,
+		DrawTextOptionSet::color,
+		DrawTextOptionSet::align,
+		DrawTextOptionSet::vertical_align
+	>;
 
-	 using WriteImage2Options = RubyUtils::Hash<
-	 	 WriteImageOptionSet::filename,
-	 	 WriteImageOptionSet::source,
-	 	 WriteImageOptionSet::compression
-	 >;
+	using WriteImage1Options = RubyUtils::Hash<
+		WriteImageOptionSet::filename,
+		WriteImageOptionSet::width,
+		WriteImageOptionSet::height,
+		WriteImageOptionSet::scale_factor,
+		WriteImageOptionSet::antialias,
+		WriteImageOptionSet::compression,
+		WriteImageOptionSet::transparent
+	>;
+
+	using WriteImage2Options = RubyUtils::Hash<
+		WriteImageOptionSet::filename,
+		WriteImageOptionSet::source,
+		WriteImageOptionSet::compression
+	>;
 
 	inline View(VALUE arg) : IObject(arg)
 	{
@@ -64,7 +78,7 @@ public:
 	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#add_observer-instance_method
 	 * @min_version SketchUp 6.0
 	 */
-	DEFINE_WRAPPED_METHOD(bool, add_observer, (RubyUtils::details::IObject observer), add_observer, observer)
+	DEFINE_WRAPPED_METHOD(bool, add_observer, (Sketchup::ViewObserver observer), add_observer, observer)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#animation=-instance_method
@@ -171,7 +185,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw-instance_method
 	 * @min_version
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, draw, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw, openglenum, points)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, draw, (GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw, static_cast<long long>(openglnum), points)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#draw-instance_method
@@ -182,7 +196,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw-instance_method
 	 * @min_version SketchUp 2020.0
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, draw, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points, DrawOptions options), draw, openglenum, points, options)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, draw, (GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points, DrawOptions options), draw, static_cast<long long>(openglnum), points, options)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
@@ -192,7 +206,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
 	 * @min_version
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, draw2d, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw2d, openglenum, points)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, draw2d, (GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points), draw2d, static_cast<long long>(openglnum), points)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
@@ -203,7 +217,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw2d-instance_method
 	 * @min_version SketchUp 2020.0
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, draw2d, (long long openglenum, RubyUtils::Enumerable<Geom::Point3d> points, Draw2dOptions options), draw2d, openglenum, points, options)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, draw2d, (GLOptions openglenum, RubyUtils::Enumerable<Geom::Point3d> points, Draw2dOptions options), draw2d, static_cast<long long>(openglnum), points, options)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#draw_lines-instance_method
@@ -251,7 +265,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#draw_text-instance_method
 	 * @min_version
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, draw_text, (Geom::Point3d point, std::string text), draw_text, point, text)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, draw_text, (Geom::Point3d point, const std::string& text), draw_text, point, text)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#draw_text-instance_method
@@ -263,7 +277,7 @@ public:
 	 * @min_version SketchUp 2016SketchUp 6.0Known Bugs:Prior to SU2022.0, on macOS, the vertical text alignment for some fonts could appear to be offset from
 	 * their expected positions. As of SU2022.0 the vertical alignment should be more accurate and consistent.
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, draw_text, (Geom::Point3d point, std::string text, DrawTextOptions options), draw_text, point, text, options)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, draw_text, (Geom::Point3d point, const std::string& text, DrawTextOptions options), draw_text, point, text, options)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#drawing_color=-instance_method
@@ -386,7 +400,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#line_stipple=-instance_method
 	 * @min_version SketchUp 6.0
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, set_line_stipple, (std::string pattern), line_stipple=, pattern)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, set_line_stipple, (const std::string& pattern), line_stipple=, pattern)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#line_width=-instance_method
@@ -525,7 +539,7 @@ public:
 	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#remove_observer-instance_method
 	 * @min_version SketchUp 6.0
 	 */
-	 DEFINE_WRAPPED_METHOD(bool, remove_observer, (RubyUtils::details::IObject observer), remove_observer, observer)
+	 DEFINE_WRAPPED_METHOD(bool, remove_observer, (Sketchup::ViewObserver observer), remove_observer, observer)
 
 	 /**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#screen_coords-instance_method
@@ -564,7 +578,7 @@ public:
 	 * @return Geom::Bounds2d read https://ruby.sketchup.com/Sketchup/View.html#text_bounds-instance_method
 	 * @min_version SketchUp 2020.0
 	 */
-	 DEFINE_WRAPPED_METHOD(Geom::Bounds2d, text_bounds, (Geom::Point3d point, std::string text, DrawTextOptions options), text_bounds, point, text, options)
+	 DEFINE_WRAPPED_METHOD(Geom::Bounds2d, text_bounds, (Geom::Point3d point, const std::string& text, DrawTextOptions options), text_bounds, point, text, options)
 
 	 /**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
@@ -573,7 +587,7 @@ public:
 	 * @return std::string read https://ruby.sketchup.com/Sketchup/View.html#tooltip=-instance_method
 	 * @min_version SketchUp 6.0
 	 */
-	 DEFINE_WRAPPED_METHOD(std::string, set_tooltip, (std::string string), tooltip=, string)
+	 DEFINE_WRAPPED_METHOD(std::string, set_tooltip, (const std::string& string), tooltip=, string)
 
 #if SKETCHUP_VERSION >= 2025
 	 /**
@@ -622,7 +636,7 @@ public:
 	 * @return bool read https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
 	 * @min_version 
 	 */
-	 DEFINE_WRAPPED_METHOD(bool, write_image, (std::string filename, long long width, long long height, bool antialias = false, double compression = 0.0), write_image, filename, width, height, antialias, compression)
+	 DEFINE_WRAPPED_METHOD(bool, write_image, (const std::string& filename, long long width, long long height, bool antialias = false, double compression = 0.0), write_image, filename, width, height, antialias, compression)
 
 	 /**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#write_image-instance_method
