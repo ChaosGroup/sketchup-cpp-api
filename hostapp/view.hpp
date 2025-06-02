@@ -286,7 +286,7 @@ public:
 	 * @return Sketchup::View read https://ruby.sketchup.com/Sketchup/View.html#drawing_color=-instance_method
 	 * @min_version SketchUp 6.0
 	 */
-	DEFINE_WRAPPED_METHOD(Sketchup::View, set_drawing_color, (RubyUtils::any_of<Sketchup::Color, std::string> color), drawing_color=, color)
+	DEFINE_WRAPPED_METHOD(Sketchup::View, set_drawing_color, (Sketchup::Color color), drawing_color=, color)
 
 	/**
 	 * @brief https://ruby.sketchup.com/Sketchup/View.html#dynamic=-instance_method
