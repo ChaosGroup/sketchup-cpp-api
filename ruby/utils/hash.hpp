@@ -2,6 +2,8 @@
 
 #include "../../cpp/utils/string_literal.hpp"
 #include <concepts>
+#include <string_view>
+using namespace std::literals::string_view_literals;
 
 namespace RubyUtils
 {
@@ -23,14 +25,14 @@ namespace RubyUtils
 		{
 			if (((Ts::key() == key) || ...))
 			{
-				rb_hash_aset(value, rb_intern_const(key.data()), RubyUtils::details::IObject::cpp_to_ruby(val));
+				rb_hash_aset(value, ID2SYM(rb_intern(key.data())), RubyUtils::details::IObject::cpp_to_ruby(val));
 			}
 		}
 
 		template <concepts::Key key> inline void copy_if_exists(VALUE from) noexcept
 		{
-			ID ruby_key = rb_intern_const(key::key().data());
-			VALUE val = rb_hash_aref(from, ID2SYM(ruby_key));
+			VALUE ruby_key = ID2SYM(rb_intern(key::key().data()));
+			VALUE val = rb_hash_aref(from, ruby_key);
 			if (val != Qnil)
 			{
 				rb_hash_aset(value, ruby_key, val);
@@ -79,7 +81,7 @@ namespace RubyUtils
 			requires(((key.to_sv() == Ts::key()) || ...))
 		inline Hash<Ts...>& _set(typename key_type<key, inds...>::type new_value, std::index_sequence<inds...>)
 		{
-			rb_hash_aset(value, rb_intern_const(key.to_sv().data()), IObject::cpp_to_ruby(new_value));
+			rb_hash_aset(value, ID2SYM(rb_intern(key.to_sv().data())), IObject::cpp_to_ruby(new_value));
 			return *this;
 		}
 

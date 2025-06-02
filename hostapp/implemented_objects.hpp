@@ -37,6 +37,13 @@ class DefinitionsObserver;
 // https://ruby.sketchup.com/Sketchup/MaterialsObserver.html
 class MaterialsObserver;
 
+// https://ruby.sketchup.com/Sketchup/View.html
+class DrawOptionSet;
+class Draw2dOptionSet;
+class DrawTextOptionSet;
+class WriteImageOptionSet;
+class View;
+
 #include "material.hpp"
 
 #include "materials.hpp"
@@ -50,6 +57,9 @@ class MaterialsObserver;
 #include "definition_list.hpp"
 
 #include "entities.hpp"
+
+#include "view_options.hpp"
+#include "view.hpp"
 
 #include "observers/makable_interface.hpp"
 

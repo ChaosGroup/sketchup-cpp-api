@@ -43,6 +43,7 @@ namespace HostApp
 #include "material.cc"
 #include "materials.cc"
 #include "model.cc"
+#include "view.cc"
 #include "entity.cc"
 #include "definition_list.cc"
 #include "entities.cc"
