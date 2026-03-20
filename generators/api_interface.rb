@@ -17,7 +17,10 @@ class APIInterface
 
   def self.hpp
     s = ''
-    s << "#include <ruby.h>" << "\n\n"
+    s << "#include <ruby.h>" << "\n"
+    s << "#include <string>" << "\n"
+    s << "#include <vector>" << "\n"
+    s << "#include <map>" << "\n\n"
 
     s << "namespace sca" << "\n"
     s << "{" << "\n"
@@ -26,53 +29,24 @@ class APIInterface
 
     module_interfaces = YARD::Registry.all(:module).map { |element| ModuleInterface.new(element) }
     class_interfaces = YARD::Registry.all(:class).map { |element| ClassInterface.new(element) }
+    main_indentation = "\t\t"
 
     module_interfaces.each { |interface|
-      s << "\t\t" << interface.forward_declare << "\n"
+      s << interface.forward_declaration(main_indentation) << "\n"
     }
 
     class_interfaces.each { |interface|
-      s << "\t\t" << interface.forward_declare << "\n"
+      s << interface.forward_declaration(main_indentation) << "\n"
     }
 
-    # Forward declare namespaces and classes
-    # namespaced_classes = []
-
-    # YARD::Registry.all(:module).each { |entry|
-    #   s << "\t\tnamespace #{entry.path}" << "\n"
-    #   s << "\t\t{" << "\n"
-    #   entry.children.select { |c| c.type == :class }.each { |child|
-    #     namespaced_classes << child
-    #     s << "\t\t\tclass #{child.name};" << "\n"
-    #   }
-    #   s << "\t\t}" << "\n"
-    # }
-
-    # # Forward declare toplevel classes
-    # (YARD::Registry.all(:class) - namespaced_classes).each { |entry|
-    #   s << "\t\tclass #{entry.name};" << "\n"
-    # }
-
-    # YARD::Registry.all(:module).each { |entry|
-    #   s << "\t\tnamespace #{entry.name}" << "\n"
-    #   s << "\t\t{" << "\n"
-    #   entry.meths(scope: :class, visibility: :public).each { |meth|
-    #     s << "\t\tvoid #{meth.name.to_s}()" << "\n"
-    #   }
-    #   s << "\t\t}" << "\n"
-    # }
+    module_interfaces.each { |interface|
+      s << interface.definition(main_indentation) << "\n"
+    }
 
     s << "\t}" << "\n"
     s << "}" << "\n"
 
     s
-  end
-
-  def self.each
-    return enum_for(:each) unless block_given?
-    SUPPORTED_OBJECTS.each { |object|
-      yield ObjectInterface.new(YARD::Registry.at(object))
-    }
   end
 
 end

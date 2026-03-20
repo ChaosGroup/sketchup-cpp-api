@@ -4,12 +4,12 @@ class ClassInterface
     @class_object = class_object
   end
 
-  def forward_declare
+  def forward_declaration(indentation = '')
     namespace = @class_object.namespace
     if namespace.root?
-      "class #{@class_object.path};"
+      "#{indentation}class #{@class_object.path};"
     else
-      "namespace #{namespace.name} { class #{@class_object.name}; }"
+      "#{indentation}namespace #{namespace.path} { class #{@class_object.name}; }"
     end
   end
   
