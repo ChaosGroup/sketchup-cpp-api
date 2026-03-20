@@ -4,11 +4,10 @@ class APIInterface
     'Sketchup::Model'
   ]
 
-  def self.setup(gem = 'sketchup-api-stubs')
-    sketchup_api_stubs = Gem.find_files('sketchup-api-stubs').first # TODO Add submodule
-    raise "sketchup-api-stubs gem is not installed" unless sketchup_api_stubs
+  def self.setup
+    ruby_files = Dir.glob("#{__dir__}/ruby-api-stubs/lib/sketchup-api-stubs/stubs/**/*.rb")
     YARD::Logger.instance.level = YARD::Logger::ERROR
-    YARD::Parser::SourceParser.parse(Dir.glob("#{sketchup_api_stubs}/stubs/**/*.rb"))
+    YARD::Parser::SourceParser.parse(ruby_files)
     # YARD::Parser::SourceParser.parse_string(DATA.read) # TODO add override file
     YARD::Logger.instance.level = YARD::Logger::INFO
   end
