@@ -5,9 +5,10 @@ class APIInterface
 
   def self.setup
     ruby_files = Dir.glob("#{__dir__}/ruby-api-stubs/lib/sketchup-api-stubs/stubs/**/*.rb")
+    ruby_override = "#{__dir__}/api_override.rb"
     YARD::Logger.instance.level = YARD::Logger::ERROR
     YARD::Parser::SourceParser.parse(ruby_files)
-    # YARD::Parser::SourceParser.parse_string(DATA.read) # TODO add override file
+    YARD::Parser::SourceParser.parse([ruby_override])
     YARD::Logger.instance.level = YARD::Logger::INFO
   end
 
@@ -17,13 +18,21 @@ class APIInterface
 
   def self.hpp
     s = ''
-    s << "#include <ruby.h>" << "\n"
-    s << "#include <string>" << "\n"
-    s << "#include <vector>" << "\n"
-    s << "#include <map>" << "\n\n"
+    s << '#pragma once' << "\n"
+    s << "\n"
+    s << '#include <ruby.h>' << "\n"
+    s << '#include <string>' << "\n"
+    s << '#include <vector>' << "\n"
+    s << '#include <map>' << "\n\n"
 
     s << "namespace sca" << "\n"
     s << "{" << "\n"
+    s << "\n"
+    s << "\tclass Object" << "\n"
+    s << "\t{" << "\n"
+    s << "\t  VALUE self;" << "\n"
+    s << "\t};" << "\n"
+    s << "\n"
     s << "\tnamespace HostApp" << "\n"
     s << "\t{" << "\n"
 

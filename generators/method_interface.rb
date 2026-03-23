@@ -26,7 +26,7 @@ class MethodInterface
   def function_retval
     tag = @method_object.tags.find { |t| t.tag_name == 'return' }
     if tag && tag.types
-      cpp_type(tag.types.first)
+      cpp_types(tag.types)
     else
       'void' # fallback if no @return
     end
@@ -60,7 +60,7 @@ class MethodInterface
     when 'Float' then 'double'
     when 'String' then 'std::string'
     when 'Symbol' then 'const char*'
-    when 'TrueClass', 'FalseClass', 'Boolean' then 'bool'
+    when 'TrueClass', 'FalseClass', 'Boolean', 'false' then 'bool'
     when 'Array' then 'std::vector<auto>'
     when 'Array(Geom::Point3d, Geom::Point3d)' then 'std::pair<Geom::Point3d, Geom::Point3d>'
     when 'Array(Geom::Point3d, Geom::Vector3d)' then 'std::pair<Geom::Point3d, Geom::Vector3d>'
@@ -68,7 +68,7 @@ class MethodInterface
     when 'Array<Geom::Point3d>' then 'std::vector<Geom::Point3d>'
     when 'Hash' then 'std::map<auto, auto>'
     when 'Module' then 'auto'
-    when 'Object' then 'auto'
+    when 'Object' then 'Object'
     else 
       raise "Unhandled type #{ruby_type}" unless YARD::Registry.at(ruby_type.to_s)
       ruby_type
@@ -79,7 +79,14 @@ class MethodInterface
     case ruby_types.size
     when 0 then 'void'
     when 1 then cpp_type(ruby_types.first)
-    else "std::optional<#{ruby_types.map { |type| cpp_type(type) }.compact.uniq }>"
+    else
+      types = ruby_types.map { |type| cpp_type(type) }
+      void_type = types.delete('void')
+      if types.size == 1 && void_type
+        "std::optional<#{types.first}>"
+      else
+        "std::variant<#{types.join(', ')}#{}>"
+      end
     end
   end
 
