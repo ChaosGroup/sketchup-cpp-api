@@ -1,9 +1,11 @@
+.DS_Store
 .vscode/
 .editorconfig
+CLAUDE.md
 build
+generated
 **/*_describe.md
 hostapp_test.hpp
 build_utils/output
 build_utils/class_descriptions/*.txt
 build_utils/class_descriptions/*.md
-build/
