@@ -9,12 +9,17 @@ class MethodInterface
   end
 
   def definition(indentation = '')
-    return "#{indentation}#{function_prefix}#{function_retval} #{function_name}(#{function_args});"
+    retval = function_retval
+    body = if retval == 'void' then ''
+           elsif retval == 'auto' then 'return 0;'
+           else 'return {};'
+           end
     s = ''
-    s << "#{indentation}#{function_prefix}#{function_retval} #{function_name}(#{function_args})" << "\n"
+    s << "#{indentation}#{function_prefix}#{retval} #{function_name}(#{function_args})" << "\n"
     s << "#{indentation}{" << "\n"
-    s << "#{indentation}\t // TODO" << "\n"
-    s << "#{indentation}}" << "\n"
+    s << "#{indentation}\t#{body}" << "\n"
+    s << "#{indentation}}"
+    s
   end
 
   private

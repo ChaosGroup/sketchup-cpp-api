@@ -48,6 +48,10 @@ class APIInterface
       s << interface.forward_declaration(main_indentation) << "\n"
     }
 
+    class_interfaces.each { |interface|
+      s << interface.definition(main_indentation) << "\n"
+    }
+
     module_interfaces.each { |interface|
       s << interface.definition(main_indentation) << "\n"
     }
