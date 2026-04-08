@@ -4,3 +4,6 @@
 [submodule "generators/ruby-api-stubs"]
 	path = generators/ruby-api-stubs
 	url = https://github.com/SketchUp/ruby-api-stubs.git
+[submodule "tests/doctest"]
+	path = tests/doctest
+	url = https://github.com/doctest/doctest.git

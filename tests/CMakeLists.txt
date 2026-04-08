@@ -3,6 +3,7 @@ target_link_libraries(test_inclusion hostapp)
 
 add_library(test_sketchup_cpp_api MODULE test_sketchup_cpp_api.cpp)
 target_link_libraries(test_sketchup_cpp_api hostapp)
+target_include_directories(test_sketchup_cpp_api PRIVATE doctest/doctest)
 set_target_properties(test_sketchup_cpp_api PROPERTIES
 	PREFIX ""
 )
@@ -30,6 +31,9 @@ endif()
 
 add_test(NAME test_sketchup_cpp_api
 	COMMAND ${SKETCHUP_EXECUTABLE} -RubyStartup $<TARGET_FILE_DIR:test_sketchup_cpp_api>/run_test_sketchup_cpp_api.rb
+)
+set_tests_properties(test_sketchup_cpp_api PROPERTIES
+	FAIL_REGULAR_EXPRESSION "FAILURE"
 )
 
 set_target_properties(test_sketchup_cpp_api PROPERTIES

@@ -1,12 +1,14 @@
+#define DOCTEST_CONFIG_IMPLEMENT
+#include < --.h>
 #include <hostapp.hpp>
 
-static VALUE test_sketchup_cpp_api(VALUE self)
-{
-    return Qtrue;
+TEST_CASE("test_sketchup_cpp_api returns true") {
+    CHECK(false);
 }
 
 extern "C"
 void Init_test_sketchup_cpp_api()
 {
-    rb_define_global_function("test_sketchup_cpp_api", test_sketchup_cpp_api, 0);
+    doctest::Context ctx;
+    ctx.run();
 }
