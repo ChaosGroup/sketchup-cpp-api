@@ -8,7 +8,7 @@ if(NOT WIN32 AND NOT APPLE)
 endif()
 
 set(SKETCHUP_VERSION 2026 CACHE STRING "Target SketchUp version")
-set_property(CACHE SKETCHUP_VERSION PROPERTY STRINGS 2021 2022 2023 2024)
+set_property(CACHE SKETCHUP_VERSION PROPERTY STRINGS 2021 2022 2023 2024 2025 2026)
 
 if(SKETCHUP_VERSION GREATER_EQUAL 2024)
 	set(RUBY_VERSION 3.2)
@@ -51,45 +51,40 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_library(${PROJECT_NAME} INTERFACE)
 
 # Ruby library so we can ignore any warnings coming from there
-add_library(RubyLib INTERFACE)
-target_include_directories(RubyLib INTERFACE ${Ruby_INCLUDE_DIRS})
-target_link_libraries(RubyLib INTERFACE ${Ruby_LIBRARIES})
+# add_library(RubyLib INTERFACE)
+# target_include_directories(RubyLib INTERFACE ${Ruby_INCLUDE_DIRS})
+# target_link_libraries(RubyLib INTERFACE ${Ruby_LIBRARIES})
 
 set(BUILD_VERSION_MAJOR 0)
 set(BUILD_VERSION_MINOR 00)
 set(BUILD_VERSION_REVISION 00)
 set(BUILD_VERSION_FULL "${BUILD_VERSION_MAJOR}.${BUILD_VERSION_MINOR}.${BUILD_VERSION_REVISION}")
 
-if(MSVC)
-	# ignore Ruby lib's warnings
-	target_compile_options(RubyLib INTERFACE
-		/W0
-	)
-	# treat all warnings as errors in out code base
-	target_compile_options(${PROJECT_NAME} INTERFACE
-		/Wall /WX /wd4371 /wd4710 /wd4711 /wd5045 /wd4702
-	)
-else()
-	# ignore Ruby lib's warnings
-	target_compile_options(RubyLib INTERFACE
-		-w
-	)
-	# treat all warnings as errors in out code base
-	target_compile_options(${PROJECT_NAME} INTERFACE
-		# rest are treated as errors
-		-Wall -Wextra -Werror
-	)
-endif()
+# if(MSVC)
+# 	# ignore Ruby lib's warnings
+# 	target_compile_options(RubyLib INTERFACE
+# 		/W0
+# 	)
+# 	# treat all warnings as errors in out code base
+# 	target_compile_options(${PROJECT_NAME} INTERFACE
+# 		/Wall /WX /wd4371 /wd4710 /wd4711 /wd5045 /wd4702
+# 	)
+# else()
+# 	# ignore Ruby lib's warnings
+# 	target_compile_options(RubyLib INTERFACE
+# 		-w
+# 	)
+# 	# treat all warnings as errors in out code base
+# 	target_compile_options(${PROJECT_NAME} INTERFACE
+# 		# rest are treated as errors
+# 		-Wall -Wextra -Werror
+# 	)
+# endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE
-	${CMAKE_SOURCE_DIR}
-)
-target_link_libraries(${PROJECT_NAME} INTERFACE RubyLib)
+# target_include_directories(${PROJECT_NAME} INTERFACE
+# 	${CMAKE_SOURCE_DIR}
+# )
+# target_link_libraries(${PROJECT_NAME} INTERFACE RubyLib)
 
 add_subdirectory(generators)
-
-# enable_testing()
-
-# add_subdirectory(examples)
-
-# add_subdirectory(tests)
+add_subdirectory(tests)
