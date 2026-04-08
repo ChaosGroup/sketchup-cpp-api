@@ -1,7 +1,10 @@
 add_executable(test_inclusion test_inclusion.cpp)
 target_link_libraries(test_inclusion hostapp)
 
-add_library(test_sketchup_cpp_api MODULE test_sketchup_cpp_api.cpp)
+add_library(test_sketchup_cpp_api MODULE
+	test_sketchup_cpp_api.cpp
+	test_sketchup_module.cpp
+)
 target_link_libraries(test_sketchup_cpp_api hostapp)
 target_include_directories(test_sketchup_cpp_api PRIVATE doctest/doctest)
 set_target_properties(test_sketchup_cpp_api PROPERTIES
