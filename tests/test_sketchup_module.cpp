@@ -3,8 +3,6 @@
 
 using namespace sca::HostApp;
 
-#define PROTECT(...) sca::protect([&]() { __VA_ARGS__; })
-
 TEST_SUITE("Sketchup") {
 
     // --- Simple getters (no arguments) ---
@@ -24,27 +22,27 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("break_edges") {
-        PROTECT(Sketchup::break_edges());
+        sca::protect([&]() { Sketchup::break_edges(); });
     }
 
     TEST_CASE("create_texture_writer") {
-        PROTECT(Sketchup::create_texture_writer());
+        sca::protect([&]() { Sketchup::create_texture_writer(); });
     }
 
     TEST_CASE("debug_mode") {
-        PROTECT(Sketchup::debug_mode());
+        sca::protect([&]() { Sketchup::debug_mode(); });
     }
 
     TEST_CASE("extensions") {
-        PROTECT(Sketchup::extensions());
+        sca::protect([&]() { Sketchup::extensions(); });
     }
 
     TEST_CASE("fix_shadow_strings") {
-        PROTECT(Sketchup::fix_shadow_strings());
+        sca::protect([&]() { Sketchup::fix_shadow_strings(); });
     }
 
     TEST_CASE("focus") {
-        PROTECT(Sketchup::focus());
+        sca::protect([&]() { Sketchup::focus(); });
     }
 
     TEST_CASE("get_locale") {
@@ -55,7 +53,7 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("get_shortcuts") {
-        PROTECT(Sketchup::get_shortcuts());
+        sca::protect([&]() { Sketchup::get_shortcuts(); });
     }
 
     TEST_CASE("is_64bit") {
@@ -65,11 +63,11 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("is_online") {
-        PROTECT(Sketchup::is_online());
+        sca::protect([&]() { Sketchup::is_online(); });
     }
 
     TEST_CASE("is_pro") {
-        PROTECT(Sketchup::is_pro());
+        sca::protect([&]() { Sketchup::is_pro(); });
     }
 
     TEST_CASE("os_language") {
@@ -87,7 +85,7 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("plugins_disabled") {
-        PROTECT(Sketchup::plugins_disabled());
+        sca::protect([&]() { Sketchup::plugins_disabled(); });
     }
 
     TEST_CASE("temp_dir") {
@@ -98,7 +96,7 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("get_template") {
-        PROTECT(Sketchup::get_template());
+        sca::protect([&]() { Sketchup::get_template(); });
     }
 
     TEST_CASE("template_dir") {
@@ -162,19 +160,19 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("assign_status_text") {
-        PROTECT(Sketchup::assign_status_text("test status"));
+        sca::protect([&]() { Sketchup::assign_status_text("test status"); });
     }
 
     TEST_CASE("assign_vcb_label") {
-        PROTECT(Sketchup::assign_vcb_label("Test Label"));
+        sca::protect([&]() { Sketchup::assign_vcb_label("Test Label"); });
     }
 
     TEST_CASE("assign_vcb_value") {
-        PROTECT(Sketchup::assign_vcb_value("42"));
+        sca::protect([&]() { Sketchup::assign_vcb_value("42"); });
     }
 
     TEST_CASE("assign_template") {
-        PROTECT(Sketchup::assign_template(Sketchup::get_template()));
+        sca::protect([&]() { Sketchup::assign_template(Sketchup::get_template()); });
     }
 
     // --- Formatting methods ---
@@ -224,27 +222,27 @@ TEST_SUITE("Sketchup") {
     // --- Query / lookup methods ---
 
     TEST_CASE("display_name_from_action") {
-        PROTECT(Sketchup::display_name_from_action("selectSelectionTool:"));
+        sca::protect([&]() { Sketchup::display_name_from_action("selectSelectionTool:"); });
     }
 
     TEST_CASE("find_support_file") {
-        PROTECT(Sketchup::find_support_file("Plugins", ""));
+        sca::protect([&]() { Sketchup::find_support_file("Plugins", ""); });
     }
 
     TEST_CASE("find_support_files") {
-        PROTECT(Sketchup::find_support_files("rb", "Plugins"));
+        sca::protect([&]() { Sketchup::find_support_files("rb", "Plugins"); });
     }
 
     TEST_CASE("get_datfile_info") {
-        PROTECT(Sketchup::get_datfile_info("ProductKey", ""));
+        sca::protect([&]() { Sketchup::get_datfile_info("ProductKey", ""); });
     }
 
     TEST_CASE("get_i18n_datfile_info") {
-        PROTECT(Sketchup::get_i18n_datfile_info("ProductKey", ""));
+        sca::protect([&]() { Sketchup::get_i18n_datfile_info("ProductKey", ""); });
     }
 
     TEST_CASE("get_resource_path") {
-        PROTECT(Sketchup::get_resource_path("test.png"));
+        sca::protect([&]() { Sketchup::get_resource_path("test.png"); });
     }
 
     TEST_CASE("is_valid_filename") {
@@ -270,11 +268,11 @@ TEST_SUITE("Sketchup") {
     // --- Status / UI methods ---
 
     TEST_CASE("set_status_text") {
-        PROTECT(Sketchup::set_status_text("Test status message"));
+        sca::protect([&]() { Sketchup::set_status_text("Test status message"); });
     }
 
     TEST_CASE("send_action") {
-        PROTECT(Sketchup::send_action("selectSelectionTool:"));
+        sca::protect([&]() { Sketchup::send_action("selectSelectionTool:"); });
     }
 
     // --- Observer methods ---
@@ -331,11 +329,11 @@ TEST_SUITE("Sketchup") {
     // --- Destructive / state-changing methods ---
 
     TEST_CASE("undo") {
-        PROTECT(Sketchup::undo());
+        sca::protect([&]() { Sketchup::undo(); });
     }
 
     TEST_CASE("redo") {
-        PROTECT(Sketchup::redo());
+        sca::protect([&]() { Sketchup::redo(); });
     }
 
     TEST_CASE("resize_viewport") {
@@ -365,7 +363,7 @@ TEST_SUITE("Sketchup") {
 TEST_SUITE("Sketchup::Licensing") {
 
     TEST_CASE("get_extension_license") {
-        PROTECT(Sketchup::Licensing::get_extension_license("test-extension-id"));
+        sca::protect([&]() { Sketchup::Licensing::get_extension_license("test-extension-id"); });
     }
 
 } // TEST_SUITE("Sketchup::Licensing")
