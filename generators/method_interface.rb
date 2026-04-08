@@ -75,7 +75,7 @@ class MethodInterface
   def cpp_type(ruby_type)
     case ruby_type
     when 'NilClass', 'nil' then 'void'
-    when 'Integer' then 'int'
+    when 'Integer' then 'long'
     when 'Float' then 'double'
     when 'String' then 'std::string'
     when 'Symbol' then 'const char*'

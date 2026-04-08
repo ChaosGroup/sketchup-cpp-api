@@ -43,7 +43,7 @@ class APIInterface
 
     # to_ruby: convert C++ values to Ruby VALUE
     s << "\tinline VALUE to_ruby(bool v) { return v ? Qtrue : Qfalse; }" << "\n"
-    s << "\tinline VALUE to_ruby(int v) { return INT2NUM(v); }" << "\n"
+    s << "\tinline VALUE to_ruby(long v) { return LONG2NUM(v); }" << "\n"
     s << "\tinline VALUE to_ruby(double v) { return DBL2NUM(v); }" << "\n"
     s << "\tinline VALUE to_ruby(const char* v) { return rb_str_new_cstr(v); }" << "\n"
     s << "\tinline VALUE to_ruby(const std::string& v) { return rb_str_new_cstr(v.c_str()); }" << "\n"
@@ -80,7 +80,7 @@ class APIInterface
     s << "\t\t\treturn T{};" << "\n"
     s << "\t\t}" << "\n"
     s << "\t\telse if constexpr (std::is_same_v<T, bool>) return RTEST(val);" << "\n"
-    s << "\t\telse if constexpr (std::is_same_v<T, int>) return NUM2INT(val);" << "\n"
+    s << "\t\telse if constexpr (std::is_same_v<T, long>) return NUM2LONG(val);" << "\n"
     s << "\t\telse if constexpr (std::is_same_v<T, double>) return NUM2DBL(val);" << "\n"
     s << "\t\telse if constexpr (std::is_same_v<T, std::string>) return std::string(StringValueCStr(val));" << "\n"
     s << "\t\telse if constexpr (std::is_same_v<T, const char*>) return rb_id2name(SYM2ID(val));" << "\n"

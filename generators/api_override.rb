@@ -23,4 +23,23 @@ module Sketchup
   def self.active_model
   end
 
+  # Setter methods that return nil, not String as the stubs claim.
+
+  # @return [nil]
+  def self.status_text=(status_text)
+  end
+
+  # @return [nil]
+  def self.vcb_label=(label_text)
+  end
+
+  # @return [nil]
+  def self.vcb_value=(value)
+  end
+
+  # The stubs say @return [String] but it actually returns a boolean.
+  # @return [Boolean]
+  def self.template=(filename)
+  end
+
 end
