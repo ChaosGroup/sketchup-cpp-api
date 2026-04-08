@@ -17,7 +17,7 @@ TEST_SUITE("Sketchup") {
     TEST_CASE("app_name") {
         sca::protect([&]() {
             std::string name = Sketchup::app_name();
-            CHECK(!name.empty());
+            CHECK(name == "SketchUp Pro");
         });
     }
 
