@@ -1,4 +1,4 @@
-set(THIRD_PARTY ${CMAKE_CURRENT_SOURCE_DIR}/tests/ruby-c-extension-examples/ThirdParty)
+set(THIRD_PARTY ${CMAKE_CURRENT_SOURCE_DIR}/ruby-c-extension-examples/ThirdParty)
 
 if(APPLE)
 	execute_process(COMMAND uname -m OUTPUT_VARIABLE ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)

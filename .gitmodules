@@ -1,5 +1,5 @@
 [submodule "tests/ruby-c-extension-examples"]
-	path = tests/ruby-c-extension-examples
+	path = ruby-c-extension-examples
 	url = https://github.com/SketchUp/ruby-c-extension-examples
 [submodule "generators/ruby-api-stubs"]
 	path = generators/ruby-api-stubs
