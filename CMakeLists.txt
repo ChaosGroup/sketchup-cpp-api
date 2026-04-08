@@ -86,4 +86,6 @@ set(BUILD_VERSION_FULL "${BUILD_VERSION_MAJOR}.${BUILD_VERSION_MINOR}.${BUILD_VE
 # target_link_libraries(${PROJECT_NAME} INTERFACE RubyLib)
 
 add_subdirectory(generators)
+
+enable_testing()
 add_subdirectory(tests)
