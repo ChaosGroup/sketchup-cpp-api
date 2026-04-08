@@ -11,14 +11,14 @@ TEST_SUITE("Sketchup") {
 
     TEST_CASE("active_model") {
         sca::protect([&]() {
-            auto model = Sketchup::active_model();
+            std::optional<Sketchup::Model> model = Sketchup::active_model();
             CHECK(model.has_value());
         });
     }
 
     TEST_CASE("app_name") {
         sca::protect([&]() {
-            auto name = Sketchup::app_name();
+            std::string name = Sketchup::app_name();
             CHECK(!name.empty());
         });
     }
@@ -49,7 +49,7 @@ TEST_SUITE("Sketchup") {
 
     TEST_CASE("get_locale") {
         sca::protect([&]() {
-            auto locale = Sketchup::get_locale();
+            std::string locale = Sketchup::get_locale();
             CHECK(!locale.empty());
         });
     }
@@ -74,7 +74,7 @@ TEST_SUITE("Sketchup") {
 
     TEST_CASE("os_language") {
         sca::protect([&]() {
-            auto lang = Sketchup::os_language();
+            std::string lang = Sketchup::os_language();
             CHECK(!lang.empty());
         });
     }
@@ -92,7 +92,7 @@ TEST_SUITE("Sketchup") {
 
     TEST_CASE("temp_dir") {
         sca::protect([&]() {
-            auto dir = Sketchup::temp_dir();
+            std::string dir = Sketchup::temp_dir();
             CHECK(!dir.empty());
         });
     }
@@ -103,21 +103,21 @@ TEST_SUITE("Sketchup") {
 
     TEST_CASE("template_dir") {
         sca::protect([&]() {
-            auto dir = Sketchup::template_dir();
+            std::string dir = Sketchup::template_dir();
             CHECK(!dir.empty());
         });
     }
 
     TEST_CASE("version") {
         sca::protect([&]() {
-            auto ver = Sketchup::version();
+            std::string ver = Sketchup::version();
             CHECK(!ver.empty());
         });
     }
 
     TEST_CASE("version_number") {
         sca::protect([&]() {
-            auto ver = Sketchup::version_number();
+            long ver = Sketchup::version_number();
             CHECK(ver > 0);
         });
     }
@@ -181,42 +181,42 @@ TEST_SUITE("Sketchup") {
 
     TEST_CASE("format_angle") {
         sca::protect([&]() {
-            auto result = Sketchup::format_angle(1.5708);
+            std::string result = Sketchup::format_angle(1.5708);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_area") {
         sca::protect([&]() {
-            auto result = Sketchup::format_area(100.0);
+            std::string result = Sketchup::format_area(100.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_degrees") {
         sca::protect([&]() {
-            auto result = Sketchup::format_degrees(90.0);
+            std::string result = Sketchup::format_degrees(90.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_length") {
         sca::protect([&]() {
-            auto result = Sketchup::format_length(10.0);
+            std::string result = Sketchup::format_length(10.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_volume") {
         sca::protect([&]() {
-            auto result = Sketchup::format_volume(1000.0);
+            std::string result = Sketchup::format_volume(1000.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("parse_length") {
         sca::protect([&]() {
-            auto result = Sketchup::parse_length("10\"");
+            double result = Sketchup::parse_length("10\"");
             CHECK(result > 0.0);
         });
     }
@@ -262,7 +262,7 @@ TEST_SUITE("Sketchup") {
         });
 
         sca::protect([&]() {
-            auto value = Sketchup::read_default("TestSection_SCA", "TestKey", "");
+            std::optional<sca::Object> value = Sketchup::read_default("TestSection_SCA", "TestKey", "");
             CHECK(value.has_value());
         });
     }
@@ -374,14 +374,14 @@ TEST_SUITE("Sketchup::RegionalSettings") {
 
     TEST_CASE("decimal_separator") {
         sca::protect([&]() {
-            auto sep = Sketchup::RegionalSettings::decimal_separator();
+            std::string sep = Sketchup::RegionalSettings::decimal_separator();
             CHECK(!sep.empty());
         });
     }
 
     TEST_CASE("list_separator") {
         sca::protect([&]() {
-            auto sep = Sketchup::RegionalSettings::list_separator();
+            std::string sep = Sketchup::RegionalSettings::list_separator();
             CHECK(!sep.empty());
         });
     }
