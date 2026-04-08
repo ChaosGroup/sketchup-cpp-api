@@ -11,23 +11,26 @@ set(SKETCHUP_VERSION 2026 CACHE STRING "Target SketchUp version")
 set_property(CACHE SKETCHUP_VERSION PROPERTY STRINGS 2021 2022 2023 2024 2025 2026)
 
 if(SKETCHUP_VERSION GREATER_EQUAL 2024)
-	set(RUBY_VERSION 3.2)
+	set(SU_RUBY_VERSION 3.2)
 elseif(SKETCHUP_VERSION GREATER_EQUAL 2021)
-	set(RUBY_VERSION 2.7)
+	set(SU_RUBY_VERSION 2.7)
 endif()
 
+# # Find system Ruby for the executable (used by generators)
+find_package(Ruby REQUIRED)
+
+# Override include dirs and libraries with SketchUp's Ruby
 include(ruby-c-extension-examples.cmake)
 
 # find_package(Ruby) will populate the following variables
 # This mimmics the setup but using the vars from ruby-c-extension-examples.cmake
-set(Ruby_FOUND ${SU_Ruby_${RUBY_VERSION}_FOUND})
-set(Ruby_EXECUTABLE ${SU_Ruby_${RUBY_VERSION}_EXECUTABLE})
-set(Ruby_INCLUDE_DIRS ${SU_Ruby_${RUBY_VERSION}_INCLUDE_DIRS})
-set(Ruby_LIBRARIES ${SU_Ruby_${RUBY_VERSION}_LIBRARIES})
-set(Ruby_VERSION ${SU_Ruby_${RUBY_VERSION}_VERSION})
-set(Ruby_VERSION_MAJOR ${SU_Ruby_${RUBY_VERSION}_VERSION_MAJOR})
-set(Ruby_VERSION_MINOR ${SU_Ruby_${RUBY_VERSION}_VERSION_MINOR})
-set(Ruby_VERSION_PATCH ${SU_Ruby_${RUBY_VERSION}_VERSION_PATCH})
+set(Ruby_FOUND ${SU_Ruby_${SU_RUBY_VERSION}_FOUND})
+set(Ruby_INCLUDE_DIRS ${SU_Ruby_${SU_RUBY_VERSION}_INCLUDE_DIRS})
+set(Ruby_LIBRARIES ${SU_Ruby_${SU_RUBY_VERSION}_LIBRARIES})
+set(Ruby_VERSION ${SU_Ruby_${SU_RUBY_VERSION}_VERSION})
+set(Ruby_VERSION_MAJOR ${SU_Ruby_${SU_RUBY_VERSION}_VERSION_MAJOR})
+set(Ruby_VERSION_MINOR ${SU_Ruby_${SU_RUBY_VERSION}_VERSION_MINOR})
+set(Ruby_VERSION_PATCH ${SU_Ruby_${SU_RUBY_VERSION}_VERSION_PATCH})
 
 message(STATUS Ruby_FOUND=${Ruby_FOUND})
 message(STATUS Ruby_EXECUTABLE=${Ruby_EXECUTABLE})
@@ -37,10 +40,6 @@ message(STATUS Ruby_VERSION=${Ruby_VERSION})
 message(STATUS Ruby_VERSION_MAJOR=${Ruby_VERSION_MAJOR})
 message(STATUS Ruby_VERSION_MINOR=${Ruby_VERSION_MINOR})
 message(STATUS Ruby_VERSION_PATCH=${Ruby_VERSION_PATCH})
-
-if(NOT Ruby_FOUND)
-	message(FATAL_ERROR "Failed to find ruby for RUBY_VERSION=${RUBY_VERSION}")
-endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
