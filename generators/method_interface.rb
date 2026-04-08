@@ -10,10 +10,24 @@ class MethodInterface
 
   def definition(indentation = '')
     retval = function_retval
-    body = if retval == 'void' then ''
-           elsif retval == 'auto' then 'return 0;'
-           else 'return {};'
+    ruby_name = @method_object.name.to_s
+    ruby_module = @method_object.namespace.path
+    params = @method_object.parameters
+    arg_names = params.map { |p| "_#{p[0].to_s.gsub('*', '')}_" }
+
+    num_args = params.size
+    args_conv = arg_names.map { |a| "sca::to_ruby(#{a})" }.join(", ")
+    funcall_args = num_args > 0 ? ", #{args_conv}" : ""
+    call = "rb_funcall(rb_eval_string(\"#{ruby_module}\"), rb_intern(\"#{ruby_name}\"), #{num_args}#{funcall_args})"
+
+    body = if retval == 'void'
+             "#{call};"
+           elsif retval == 'auto'
+             "return #{call};"
+           else
+             "return sca::from_ruby<#{retval}>(#{call});"
            end
+
     s = ''
     s << "#{indentation}#{function_prefix}#{retval} #{function_name}(#{function_args})" << "\n"
     s << "#{indentation}{" << "\n"
@@ -74,7 +88,7 @@ class MethodInterface
     when 'Hash' then 'std::map<auto, auto>'
     when 'Module' then 'auto'
     when 'Object' then 'Object'
-    else 
+    else
       raise "Unhandled type #{ruby_type}" unless YARD::Registry.at(ruby_type.to_s)
       ruby_type
     end
