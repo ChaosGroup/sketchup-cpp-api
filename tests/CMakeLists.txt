@@ -32,9 +32,15 @@ elseif(APPLE)
 	set(SKETCHUP_EXECUTABLE "/Applications/SketchUp ${SKETCHUP_VERSION}/SketchUp.app/Contents/MacOS/SketchUp")
 endif()
 
-add_test(NAME test_sketchup_cpp_api
-	COMMAND ${SKETCHUP_EXECUTABLE} -RubyStartup $<TARGET_FILE_DIR:test_sketchup_cpp_api>/run_test_sketchup_cpp_api.rb
-)
+if(APPLE)
+	add_test(NAME test_sketchup_cpp_api
+		COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/launch_sketchup_mac.sh ${SKETCHUP_EXECUTABLE} -RubyStartup $<TARGET_FILE_DIR:test_sketchup_cpp_api>/run_test_sketchup_cpp_api.rb
+	)
+else()
+	add_test(NAME test_sketchup_cpp_api
+		COMMAND ${SKETCHUP_EXECUTABLE} -RubyStartup $<TARGET_FILE_DIR:test_sketchup_cpp_api>/run_test_sketchup_cpp_api.rb
+	)
+endif()
 set_tests_properties(test_sketchup_cpp_api PROPERTIES
 	FAIL_REGULAR_EXPRESSION "FAILURE"
 )

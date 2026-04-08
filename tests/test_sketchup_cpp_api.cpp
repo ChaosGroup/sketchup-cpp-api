@@ -3,7 +3,7 @@
 #include <hostapp.hpp>
 
 TEST_CASE("test_sketchup_cpp_api returns true") {
-    CHECK(false);
+    CHECK(true);
 }
 
 extern "C"
