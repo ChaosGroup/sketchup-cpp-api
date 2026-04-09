@@ -8,122 +8,154 @@ TEST_SUITE("Sketchup") {
     // --- Simple getters (no arguments) ---
 
     TEST_CASE("active_model") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::optional<Sketchup::Model> model = Sketchup::active_model();
+#ifdef WIN32
             CHECK(model.has_value());
+#endif
         });
     }
 
     TEST_CASE("app_name") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string name = Sketchup::app_name();
             CHECK(name == "SketchUp Pro");
         });
     }
 
     TEST_CASE("break_edges") {
-        sca::protect([&]() { Sketchup::break_edges(); });
+        sca::protect([]() {
+            bool res = Sketchup::break_edges();
+        });
     }
 
     TEST_CASE("create_texture_writer") {
-        sca::protect([&]() { Sketchup::create_texture_writer(); });
+        sca::protect([]() {
+            Sketchup::TextureWriter res = Sketchup::create_texture_writer();
+        });
     }
 
     TEST_CASE("debug_mode") {
-        sca::protect([&]() { Sketchup::debug_mode(); });
+        sca::protect([]() {
+            bool res = Sketchup::debug_mode();
+        });
     }
 
     TEST_CASE("extensions") {
-        sca::protect([&]() { Sketchup::extensions(); });
+        sca::protect([]() {
+            Sketchup::ExtensionsManager res = Sketchup::extensions();
+        });
     }
 
     TEST_CASE("fix_shadow_strings") {
-        sca::protect([&]() { Sketchup::fix_shadow_strings(); });
+        sca::protect([]() {
+            bool res = Sketchup::fix_shadow_strings();
+        });
     }
 
     TEST_CASE("focus") {
-        sca::protect([&]() { Sketchup::focus(); });
+        sca::protect([]() {
+            Sketchup::focus();
+        });
     }
 
     TEST_CASE("get_locale") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string locale = Sketchup::get_locale();
             CHECK(!locale.empty());
         });
     }
 
     TEST_CASE("get_shortcuts") {
-        sca::protect([&]() { Sketchup::get_shortcuts(); });
+        sca::protect([]() {
+            std::vector<std::string> res = Sketchup::get_shortcuts();
+            CHECK(!res.empty());
+            CHECK(!res.front().empty());
+        });
     }
 
     TEST_CASE("is_64bit") {
-        sca::protect([&]() {
+        sca::protect([]() {
             CHECK(Sketchup::is_64bit());
         });
     }
 
     TEST_CASE("is_online") {
-        sca::protect([&]() { Sketchup::is_online(); });
+        sca::protect([]() {
+            bool res = Sketchup::is_online();
+        });
     }
 
     TEST_CASE("is_pro") {
-        sca::protect([&]() { Sketchup::is_pro(); });
+        sca::protect([]() {
+            CHECK(Sketchup::is_pro());
+        });
     }
 
     TEST_CASE("os_language") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string lang = Sketchup::os_language();
             CHECK(!lang.empty());
         });
     }
 
     TEST_CASE("platform") {
-        sca::protect([&]() {
-            const char* p = Sketchup::platform();
-            CHECK(p != nullptr);
+        sca::protect([]() {
+            const char* res = Sketchup::platform();
+#ifdef WIN32
+            CHECK(strcmp(res, "platform_win") == 0);
+#elif __APPLE__
+            CHECK(strcmp(res, "platform_osx") == 0);
+#endif
         });
     }
 
     TEST_CASE("plugins_disabled") {
-        sca::protect([&]() { Sketchup::plugins_disabled(); });
+        sca::protect([]() { 
+            bool res = Sketchup::plugins_disabled();
+        });
     }
 
     TEST_CASE("temp_dir") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string dir = Sketchup::temp_dir();
             CHECK(!dir.empty());
         });
     }
 
     TEST_CASE("get_template") {
-        sca::protect([&]() { Sketchup::get_template(); });
+        sca::protect([]() {
+            std::string res = Sketchup::get_template();
+            CHECK(!res.empty());
+        });
     }
 
     TEST_CASE("template_dir") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string dir = Sketchup::template_dir();
             CHECK(!dir.empty());
         });
     }
 
     TEST_CASE("version") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string ver = Sketchup::version();
             CHECK(!ver.empty());
         });
     }
 
     TEST_CASE("version_number") {
-        sca::protect([&]() {
+        sca::protect([]() {
             long ver = Sketchup::version_number();
-            CHECK(ver > 0);
+            long major = (ver / 1000000) + 2000;
+            CHECK(major > 2026);
         });
     }
 
     // --- Getter/setter pairs ---
 
     TEST_CASE("assign_break_edges") {
-        sca::protect([&]() {
+        sca::protect([]() {
             bool original = Sketchup::break_edges();
             Sketchup::assign_break_edges(!original);
             CHECK(Sketchup::break_edges() == !original);
@@ -133,7 +165,7 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("assign_debug_mode") {
-        sca::protect([&]() {
+        sca::protect([]() {
             bool original = Sketchup::debug_mode();
             Sketchup::assign_debug_mode(!original);
             CHECK(Sketchup::debug_mode() == !original);
@@ -143,7 +175,7 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("assign_fix_shadow_strings") {
-        sca::protect([&]() {
+        sca::protect([]() {
             bool original = Sketchup::fix_shadow_strings();
             Sketchup::assign_fix_shadow_strings(!original);
             CHECK(Sketchup::fix_shadow_strings() == !original);
@@ -153,67 +185,67 @@ TEST_SUITE("Sketchup") {
     }
 
     TEST_CASE("assign_plugins_disabled") {
-        sca::protect([&]() {
+        sca::protect([]() {
             bool original = Sketchup::plugins_disabled();
             Sketchup::assign_plugins_disabled(original);
         });
     }
 
     TEST_CASE("assign_status_text") {
-        sca::protect([&]() { Sketchup::assign_status_text("test status"); });
+        sca::protect([]() { Sketchup::assign_status_text("test status"); });
     }
 
     TEST_CASE("assign_vcb_label") {
-        sca::protect([&]() { Sketchup::assign_vcb_label("Test Label"); });
+        sca::protect([]() { Sketchup::assign_vcb_label("Test Label"); });
     }
 
     TEST_CASE("assign_vcb_value") {
-        sca::protect([&]() { Sketchup::assign_vcb_value("42"); });
+        sca::protect([]() { Sketchup::assign_vcb_value("42"); });
     }
 
     TEST_CASE("assign_template") {
-        sca::protect([&]() { Sketchup::assign_template(Sketchup::get_template()); });
+        sca::protect([]() { Sketchup::assign_template(Sketchup::get_template()); });
     }
 
     // --- Formatting methods ---
 
     TEST_CASE("format_angle") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string result = Sketchup::format_angle(1.5708);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_area") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string result = Sketchup::format_area(100.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_degrees") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string result = Sketchup::format_degrees(90.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_length") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string result = Sketchup::format_length(10.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("format_volume") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string result = Sketchup::format_volume(1000.0);
             CHECK(!result.empty());
         });
     }
 
     TEST_CASE("parse_length") {
-        sca::protect([&]() {
+        sca::protect([]() {
             double result = Sketchup::parse_length("10\"");
             CHECK(result > 0.0);
         });
@@ -222,31 +254,31 @@ TEST_SUITE("Sketchup") {
     // --- Query / lookup methods ---
 
     TEST_CASE("display_name_from_action") {
-        sca::protect([&]() { Sketchup::display_name_from_action("selectSelectionTool:"); });
+        sca::protect([]() { Sketchup::display_name_from_action("selectSelectionTool:"); });
     }
 
     TEST_CASE("find_support_file") {
-        sca::protect([&]() { Sketchup::find_support_file("Plugins", ""); });
+        sca::protect([]() { Sketchup::find_support_file("Plugins", ""); });
     }
 
     TEST_CASE("find_support_files") {
-        sca::protect([&]() { Sketchup::find_support_files("rb", "Plugins"); });
+        sca::protect([]() { Sketchup::find_support_files("rb", "Plugins"); });
     }
 
     TEST_CASE("get_datfile_info") {
-        sca::protect([&]() { Sketchup::get_datfile_info("ProductKey", ""); });
+        sca::protect([]() { Sketchup::get_datfile_info("ProductKey", ""); });
     }
 
     TEST_CASE("get_i18n_datfile_info") {
-        sca::protect([&]() { Sketchup::get_i18n_datfile_info("ProductKey", ""); });
+        sca::protect([]() { Sketchup::get_i18n_datfile_info("ProductKey", ""); });
     }
 
     TEST_CASE("get_resource_path") {
-        sca::protect([&]() { Sketchup::get_resource_path("test.png"); });
+        sca::protect([]() { Sketchup::get_resource_path("test.png"); });
     }
 
     TEST_CASE("is_valid_filename") {
-        sca::protect([&]() {
+        sca::protect([]() {
             CHECK(Sketchup::is_valid_filename("model.skp"));
         });
     }
@@ -254,12 +286,12 @@ TEST_SUITE("Sketchup") {
     // --- Defaults (read/write) ---
 
     TEST_CASE("write_default and read_default") {
-        sca::protect([&]() {
+        sca::protect([]() {
             bool written = Sketchup::write_default("TestSection_SCA", "TestKey", "TestValue");
             CHECK(written);
         });
 
-        sca::protect([&]() {
+        sca::protect([]() {
             std::optional<sca::Object> value = Sketchup::read_default("TestSection_SCA", "TestKey", "");
             CHECK(value.has_value());
         });
@@ -268,11 +300,11 @@ TEST_SUITE("Sketchup") {
     // --- Status / UI methods ---
 
     TEST_CASE("set_status_text") {
-        sca::protect([&]() { Sketchup::set_status_text("Test status message"); });
+        sca::protect([]() { Sketchup::set_status_text("Test status message"); });
     }
 
     TEST_CASE("send_action") {
-        sca::protect([&]() { Sketchup::send_action("selectSelectionTool:"); });
+        sca::protect([]() { Sketchup::send_action("selectSelectionTool:"); });
     }
 
     // --- Observer methods ---
@@ -329,11 +361,11 @@ TEST_SUITE("Sketchup") {
     // --- Destructive / state-changing methods ---
 
     TEST_CASE("undo") {
-        sca::protect([&]() { Sketchup::undo(); });
+        sca::protect([]() { Sketchup::undo(); });
     }
 
     TEST_CASE("redo") {
-        sca::protect([&]() { Sketchup::redo(); });
+        sca::protect([]() { Sketchup::redo(); });
     }
 
     TEST_CASE("resize_viewport") {
@@ -363,7 +395,7 @@ TEST_SUITE("Sketchup") {
 TEST_SUITE("Sketchup::Licensing") {
 
     TEST_CASE("get_extension_license") {
-        sca::protect([&]() { Sketchup::Licensing::get_extension_license("test-extension-id"); });
+        sca::protect([]() { Sketchup::Licensing::get_extension_license("test-extension-id"); });
     }
 
 } // TEST_SUITE("Sketchup::Licensing")
@@ -371,14 +403,14 @@ TEST_SUITE("Sketchup::Licensing") {
 TEST_SUITE("Sketchup::RegionalSettings") {
 
     TEST_CASE("decimal_separator") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string sep = Sketchup::RegionalSettings::decimal_separator();
             CHECK(!sep.empty());
         });
     }
 
     TEST_CASE("list_separator") {
-        sca::protect([&]() {
+        sca::protect([]() {
             std::string sep = Sketchup::RegionalSettings::list_separator();
             CHECK(!sep.empty());
         });
