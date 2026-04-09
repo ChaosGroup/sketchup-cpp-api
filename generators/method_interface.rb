@@ -16,7 +16,7 @@ class MethodInterface
     arg_names = params.map { |p| "_#{p[0].to_s.gsub('*', '')}_" }
 
     num_args = params.size
-    args_conv = arg_names.map { |a| "sca::to_ruby(#{a})" }.join(", ")
+    args_conv = arg_names.map { |a| "SketchUpCppAPI::to_ruby(#{a})" }.join(", ")
     funcall_args = num_args > 0 ? ", #{args_conv}" : ""
     call = "rb_funcall(rb_eval_string(\"#{ruby_module}\"), rb_intern(\"#{ruby_name}\"), #{num_args}#{funcall_args})"
 
@@ -25,7 +25,7 @@ class MethodInterface
            elsif retval == 'auto'
              "return #{call};"
            else
-             "return sca::from_ruby<#{retval}>(#{call});"
+             "return SketchUpCppAPI::from_ruby<#{retval}>(#{call});"
            end
 
     s = ''

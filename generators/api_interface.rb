@@ -33,7 +33,7 @@ class APIInterface
     s << '#include <type_traits>' << "\n"
     s << '#include <stdexcept>' << "\n\n"
 
-    s << "namespace sca" << "\n"
+    s << "namespace SketchUpCppAPI" << "\n"
     s << "{" << "\n"
     s << "\n"
     s << "\tclass Object" << "\n"

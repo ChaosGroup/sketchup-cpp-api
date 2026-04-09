@@ -1,5 +1,7 @@
 set(GENERATED_HPP ${CMAKE_CURRENT_BINARY_DIR}/hostapp.hpp)
 
+find_package(Ruby REQUIRED)
+
 add_custom_command(
     OUTPUT ${GENERATED_HPP}
     COMMAND ${Ruby_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate.rb ${CMAKE_CURRENT_BINARY_DIR}
