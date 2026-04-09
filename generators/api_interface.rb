@@ -20,6 +20,10 @@ class APIInterface
     s = ''
     s << '#pragma once' << "\n"
     s << "\n"
+    s << '#ifndef SKETCHUP_VERSION' << "\n"
+    s << '#error "SKETCHUP_VERSION must be defined"' << "\n"
+    s << '#endif' << "\n"
+    s << "\n"
     s << '#include <ruby.h>' << "\n"
     s << '#include <string>' << "\n"
     s << '#include <vector>' << "\n"
