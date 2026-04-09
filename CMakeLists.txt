@@ -26,5 +26,34 @@ foreach(SKETCHUP_VERSION 2021 2022 2023 2024 2025 2026)
 	target_compile_definitions(SketchUpCppAPI_${SKETCHUP_VERSION} INTERFACE SKETCHUP_VERSION=${SKETCHUP_VERSION})		
 endforeach()
 	
+# --- Install rules ---
+
+# Generated header
+install(DIRECTORY $<TARGET_PROPERTY:HostApp,INTERFACE_INCLUDE_DIRECTORIES>/SketchUpCppAPI
+	DESTINATION include)
+
+# Ruby headers and libraries for each version
+foreach(VERSION ${RUBY_VERSIONS})
+	foreach(INCLUDE_DIR ${SU_Ruby_${VERSION}_INCLUDE_DIRS})
+		if(IS_DIRECTORY ${INCLUDE_DIR})
+			install(DIRECTORY ${INCLUDE_DIR}/
+				DESTINATION ruby/${VERSION}/include)
+		endif()
+	endforeach()
+
+	if(APPLE)
+		get_filename_component(FRAMEWORK_DIR "${SU_Ruby_${VERSION}_LIBRARIES}" DIRECTORY)
+		install(DIRECTORY ${FRAMEWORK_DIR}
+			DESTINATION ruby/${VERSION}/lib)
+	elseif(WIN32)
+		install(FILES ${SU_Ruby_${VERSION}_LIBRARIES}
+			DESTINATION ruby/${VERSION}/lib)
+	endif()
+endforeach()
+
+# CMake package config
+install(FILES cmake/SketchUpCppAPIConfig.cmake
+	DESTINATION cmake)
+
 enable_testing()
 add_subdirectory(tests)
