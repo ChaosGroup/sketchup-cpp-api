@@ -15,7 +15,5 @@ add_library(hostapp INTERFACE)
 add_dependencies(hostapp generate)
 target_include_directories(hostapp INTERFACE
 	${CMAKE_CURRENT_BINARY_DIR}
-	${Ruby_INCLUDE_DIRS}
 )
-target_link_libraries(hostapp INTERFACE ${Ruby_LIBRARIES})
 
