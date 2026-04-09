@@ -29,6 +29,7 @@ class MethodInterface
            end
 
     s = ''
+    s << doc_comment(indentation)
     s << "#{indentation}#{function_prefix}#{retval} #{function_name}(#{function_args})" << "\n"
     s << "#{indentation}{" << "\n"
     s << "#{indentation}\t#{body}" << "\n"
@@ -37,6 +38,43 @@ class MethodInterface
   end
 
   private
+
+  def doc_comment(indentation)
+    lines = []
+    doc = @method_object.docstring.to_s
+    unless doc.empty?
+      # Take only the description text, stop at tag-like lines
+      doc.each_line do |line|
+        break if line.strip.start_with?('@')
+        lines << line.rstrip
+      end
+      # Trim trailing blank lines from description
+      lines.pop while lines.last&.strip&.empty?
+    end
+
+    @method_object.tags.select { |t| t.tag_name == 'param' }.each do |tag|
+      text = tag.text.to_s.gsub(/\s+/, ' ').strip
+      lines << "@param #{tag.name} #{text}"
+    end
+
+    return_tag = @method_object.tags.find { |t| t.tag_name == 'return' }
+    if return_tag && return_tag.text && !return_tag.text.strip.empty?
+      text = return_tag.text.to_s.gsub(/\s+/, ' ').strip
+      lines << "@return #{text}"
+    end
+
+    version_tag = @method_object.tags.find { |t| t.tag_name == 'version' }
+    if version_tag
+      lines << "@since #{version_tag.text}"
+    end
+
+    return '' if lines.empty?
+
+    s = "#{indentation}/**\n"
+    lines.each { |line| s << "#{indentation} * #{line}\n" }
+    s << "#{indentation} */\n"
+    s
+  end
 
   def function_prefix
     @method_object.scope == :class ? "static " : ""
