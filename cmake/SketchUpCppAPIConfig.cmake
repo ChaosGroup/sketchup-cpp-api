@@ -2,12 +2,13 @@
 # Package config for find_package(SketchUpCppAPI)
 #
 # Defines INTERFACE IMPORTED targets:
-#   SketchUpCppAPI::SketchUpCppAPI_2021 .. SketchUpCppAPI::SketchUpCppAPI_2026
+#   SketchUpCppAPI::2021 .. SketchUpCppAPI::2026
 #
 # Each target sets up include directories, link libraries, compile definitions,
 # and C++20 requirement for the corresponding SketchUp version.
 
-if(TARGET SketchUpCppAPI::SketchUpCppAPI_2024)
+# Guard against double-inclusion (e.g. multiple dependents calling find_package)
+if(TARGET SketchUpCppAPI::2021)
     return()
 endif()
 
@@ -47,18 +48,18 @@ foreach(_SU_VERSION 2021 2022 2023 2024 2025 2026)
         set(_RUBY_VERSION 2.7)
     endif()
 
-    add_library(SketchUpCppAPI::SketchUpCppAPI_${_SU_VERSION} INTERFACE IMPORTED)
-    target_include_directories(SketchUpCppAPI::SketchUpCppAPI_${_SU_VERSION} INTERFACE
+    add_library(SketchUpCppAPI::${_SU_VERSION} INTERFACE IMPORTED)
+    target_include_directories(SketchUpCppAPI::${_SU_VERSION} INTERFACE
         "${_SKETCHUP_CPP_API_PREFIX}/include"
         ${_SKETCHUP_CPP_API_RUBY_${_RUBY_VERSION}_INCLUDE_DIRS}
     )
-    target_link_libraries(SketchUpCppAPI::SketchUpCppAPI_${_SU_VERSION} INTERFACE
+    target_link_libraries(SketchUpCppAPI::${_SU_VERSION} INTERFACE
         ${_SKETCHUP_CPP_API_RUBY_${_RUBY_VERSION}_LIBRARIES}
     )
-    target_compile_definitions(SketchUpCppAPI::SketchUpCppAPI_${_SU_VERSION} INTERFACE
+    target_compile_definitions(SketchUpCppAPI::${_SU_VERSION} INTERFACE
         SKETCHUP_VERSION=${_SU_VERSION}
     )
-    target_compile_features(SketchUpCppAPI::SketchUpCppAPI_${_SU_VERSION} INTERFACE
+    target_compile_features(SketchUpCppAPI::${_SU_VERSION} INTERFACE
         cxx_std_20
     )
 endforeach()
