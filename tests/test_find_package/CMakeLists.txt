@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.30)
+project(TestFindPackage)
+find_package(SketchUpCppAPI REQUIRED)
+add_executable(test_find_package ${TEST_SOURCE})
+target_link_libraries(test_find_package SketchUpCppAPI::SketchUpCppAPI_2024)

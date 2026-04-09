@@ -55,3 +55,13 @@ set_target_properties(test_sketchup_cpp_api PROPERTIES
 	XCODE_SCHEME_EXECUTABLE "/Applications/SketchUp ${SKETCHUP_VERSION}/SketchUp.app"
 	XCODE_SCHEME_ARGUMENTS "-RubyStartup ${CMAKE_CURRENT_BINARY_DIR}/\${CONFIGURATION}/run_test_sketchup_cpp_api.rb"
 )
+
+add_test(NAME test_find_package
+	COMMAND ${CMAKE_COMMAND}
+		-DBUILD_DIR=${CMAKE_BINARY_DIR}
+		-DINSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/test_find_package_install
+		-DCONSUMER_SRC=${CMAKE_CURRENT_SOURCE_DIR}/test_find_package
+		-DCONSUMER_BUILD=${CMAKE_CURRENT_BINARY_DIR}/test_find_package_build
+		-DTEST_SOURCE=${CMAKE_CURRENT_SOURCE_DIR}/test_find_package.cpp
+		-P ${CMAKE_CURRENT_SOURCE_DIR}/test_find_package.cmake
+)
