@@ -2,20 +2,23 @@ set(HOSTAPP_HPP ${CMAKE_CURRENT_BINARY_DIR}/include/SketchUpCppAPI/HostApp.hpp)
 
 find_package(Ruby REQUIRED)
 
-add_custom_command(
-    OUTPUT ${HOSTAPP_HPP}
+file(GLOB_RECURSE GENERATOR_SCRIPTS ${CMAKE_CURRENT_SOURCE_DIR}/*.rb)
+file(GLOB_RECURSE YARD_STUBS ${CMAKE_CURRENT_SOURCE_DIR}/ruby-api-stubs/lib/*.rb)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+	${GENERATOR_SCRIPTS}
+	${YARD_STUBS}
+)
+
+execute_process(
     COMMAND ${Ruby_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate.rb ${HOSTAPP_HPP}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Generating ${HOSTAPP_HPP} from YARD stubs"
+    RESULT_VARIABLE _GENERATE_RESULT
 )
-
-add_custom_target(generate
-    DEPENDS ${HOSTAPP_HPP}
-)
+if(NOT _GENERATE_RESULT EQUAL 0)
+    message(FATAL_ERROR "Failed to generate ${HOSTAPP_HPP}")
+endif()
 
 add_library(HostApp INTERFACE)
-add_dependencies(HostApp generate)
 target_include_directories(HostApp INTERFACE
 	${CMAKE_CURRENT_BINARY_DIR}/include
 )
-
