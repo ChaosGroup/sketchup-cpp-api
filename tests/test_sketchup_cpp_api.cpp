@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include <doctest.h>
-#include <hostapp.hpp>
+#include <SketchUpCppAPI/HostApp.hpp>
 
 TEST_CASE("test_sketchup_cpp_api returns true") {
     CHECK(true);

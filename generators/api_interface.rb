@@ -13,7 +13,7 @@ class APIInterface
   end
 
   def self.export(path)
-    File.write("#{path}/hostapp.hpp", hpp)
+    File.write(path, hpp)
   end
 
   def self.hpp

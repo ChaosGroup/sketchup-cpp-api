@@ -1,5 +1,5 @@
 #include <doctest.h>
-#include <hostapp.hpp>
+#include <SketchUpCppAPI/HostApp.hpp>
 
 using namespace SketchUpCppAPI::HostApp;
 

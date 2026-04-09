@@ -22,7 +22,7 @@ foreach(SKETCHUP_VERSION 2021 2022 2023 2024 2025 2026)
 	target_include_directories(SketchUpCppAPI_${SKETCHUP_VERSION} INTERFACE
 		${SU_Ruby_${SU_RUBY_VERSION}_INCLUDE_DIRS}
 	)
-	target_link_libraries(SketchUpCppAPI_${SKETCHUP_VERSION} INTERFACE hostapp ${SU_Ruby_${SU_RUBY_VERSION}_LIBRARIES})
+	target_link_libraries(SketchUpCppAPI_${SKETCHUP_VERSION} INTERFACE HostApp ${SU_Ruby_${SU_RUBY_VERSION}_LIBRARIES})
 	target_compile_definitions(SketchUpCppAPI_${SKETCHUP_VERSION} INTERFACE SKETCHUP_VERSION=${SKETCHUP_VERSION})		
 endforeach()
 	
