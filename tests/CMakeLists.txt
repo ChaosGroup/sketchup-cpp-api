@@ -46,7 +46,7 @@ else()
 	)
 endif()
 set_tests_properties(test_sketchup_cpp_api PROPERTIES
-	FAIL_REGULAR_EXPRESSION "FAILURE"
+	PASS_REGULAR_EXPRESSION "\\[doctest\\] Status: SUCCESS!"
 )
 
 set_target_properties(test_sketchup_cpp_api PROPERTIES
