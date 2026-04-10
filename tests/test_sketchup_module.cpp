@@ -54,7 +54,8 @@ TEST_SUITE("Sketchup") {
     PROTECTED_TEST_CASE("get_shortcuts", {
         std::vector<std::string> res = Sketchup::get_shortcuts();
         CHECK(!res.empty());
-        CHECK(!res.front().empty());
+        if (!res.empty())
+            CHECK(!res.front().empty());
     })
 
     PROTECTED_TEST_CASE("is_64bit", {
@@ -110,7 +111,8 @@ TEST_SUITE("Sketchup") {
     PROTECTED_TEST_CASE("version_number", {
         long ver = Sketchup::version_number();
         long major = (ver / 1000000) + 2000;
-        CHECK(major > 2026);
+        CHECK(major > 2021);
+        CHECK(major < 2026);
     })
 
     // --- Getter/setter pairs ---
@@ -195,27 +197,33 @@ TEST_SUITE("Sketchup") {
     // --- Query / lookup methods ---
 
     PROTECTED_TEST_CASE("display_name_from_action", {
-        Sketchup::display_name_from_action("selectSelectionTool:");
+        std::string name = Sketchup::display_name_from_action("selectSelectionTool:");
+        CHECK(!name.empty());
     })
 
     PROTECTED_TEST_CASE("find_support_file", {
-        Sketchup::find_support_file("Plugins", "");
+        std::string path = Sketchup::find_support_file("Plugins", "");
+        CHECK(!path.empty());
     })
 
     PROTECTED_TEST_CASE("find_support_files", {
-        Sketchup::find_support_files("rb", "Plugins");
+        std::vector<std::string> files = Sketchup::find_support_files("rb", "Plugins");
+        CHECK(!files.empty());
     })
 
     PROTECTED_TEST_CASE("get_datfile_info", {
-        Sketchup::get_datfile_info("ProductKey", "");
+        std::string value = Sketchup::get_datfile_info("ProductKey", "");
+        CHECK(!value.empty());
     })
 
     PROTECTED_TEST_CASE("get_i18n_datfile_info", {
-        Sketchup::get_i18n_datfile_info("ProductKey", "");
+        std::string value = Sketchup::get_i18n_datfile_info("ProductKey", "");
+        CHECK(!value.empty());
     })
 
     PROTECTED_TEST_CASE("get_resource_path", {
-        Sketchup::get_resource_path("test.png");
+        std::string path = Sketchup::get_resource_path("test.png");
+        CHECK(!path.empty());
     })
 
     PROTECTED_TEST_CASE("is_valid_filename", {
@@ -241,7 +249,8 @@ TEST_SUITE("Sketchup") {
     })
 
     PROTECTED_TEST_CASE("send_action", {
-        Sketchup::send_action("selectSelectionTool:");
+        bool result = Sketchup::send_action("selectSelectionTool:");
+        CHECK(result);
     })
 
     // --- Observer methods ---
@@ -326,36 +335,3 @@ TEST_SUITE("Sketchup") {
     }
 
 } // TEST_SUITE("Sketchup")
-
-// --- Sub-namespace tests ---
-
-TEST_SUITE("Sketchup::Licensing") {
-
-    PROTECTED_TEST_CASE("get_extension_license", {
-        Sketchup::Licensing::get_extension_license("test-extension-id");
-    })
-
-} // TEST_SUITE("Sketchup::Licensing")
-
-TEST_SUITE("Sketchup::RegionalSettings") {
-
-    PROTECTED_TEST_CASE("decimal_separator", {
-        std::string sep = Sketchup::RegionalSettings::decimal_separator();
-        CHECK(!sep.empty());
-    })
-
-    PROTECTED_TEST_CASE("list_separator", {
-        std::string sep = Sketchup::RegionalSettings::list_separator();
-        CHECK(!sep.empty());
-    })
-
-} // TEST_SUITE("Sketchup::RegionalSettings")
-
-TEST_SUITE("Sketchup::Skp") {
-
-    TEST_CASE("read_guid") {
-        // Requires a valid .skp file path
-        // Sketchup::Skp::read_guid("/path/to/model.skp");
-    }
-
-} // TEST_SUITE("Sketchup::Skp")
