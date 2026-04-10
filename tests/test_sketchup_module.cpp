@@ -1,5 +1,5 @@
 #include <doctest.h>
-#include <SketchUpCppAPI/HostApp.hpp>
+#include <SketchUpCppAPI/SketchUpCppAPI.hpp>
 
 #define PROTECTED_TEST_CASE(name, ...) \
     TEST_CASE(name) { SketchUpCppAPI::protect([]() __VA_ARGS__); }

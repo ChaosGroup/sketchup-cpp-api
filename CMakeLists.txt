@@ -28,9 +28,12 @@ endforeach()
 	
 # --- Install rules ---
 
-# Generated header
-install(DIRECTORY $<TARGET_PROPERTY:HostApp,INTERFACE_INCLUDE_DIRECTORIES>/SketchUpCppAPI
-	DESTINATION include)
+# Headers
+get_target_property(_HOSTAPP_INCLUDE_DIRS HostApp INTERFACE_INCLUDE_DIRECTORIES)
+foreach(_DIR ${_HOSTAPP_INCLUDE_DIRS})
+	install(DIRECTORY ${_DIR}/SketchUpCppAPI
+		DESTINATION include)
+endforeach()
 
 # Ruby headers and libraries for each version
 foreach(VERSION ${RUBY_VERSIONS})

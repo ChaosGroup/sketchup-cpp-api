@@ -21,4 +21,5 @@ endif()
 add_library(HostApp INTERFACE)
 target_include_directories(HostApp INTERFACE
 	${CMAKE_CURRENT_BINARY_DIR}/include
+	${CMAKE_SOURCE_DIR}/include
 )
