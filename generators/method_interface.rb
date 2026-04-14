@@ -30,7 +30,11 @@ class MethodInterface
 
     s = ''
     s << doc_comment(indentation)
-    s << "#{indentation}#{function_prefix}#{retval} #{function_name}(#{function_args})" << "\n"
+    begin
+      s << "#{indentation}#{function_prefix}#{retval} #{function_name}(#{function_args})" << "\n"
+    rescue StandardError => e
+      return "#{indentation}// #{function_name} not yet supported\n"
+    end
     s << "#{indentation}{" << "\n"
     s << "#{indentation}\t#{body}" << "\n"
     s << "#{indentation}}"
@@ -99,15 +103,19 @@ class MethodInterface
   end
 
   def function_args
-    @method_object.parameters.map { |param|
-      function_param(param)
+    @method_object.parameters.map { |param, default|
+      function_param(param, default)
     }.join(", ")
   end
 
-  def function_param(param)
-    pname = param[0].to_s.gsub('*', '')
-    default = param[1] ? " = #{param[1]}" : ''
-    "auto _#{pname}_"
+  def function_param(param, _default)
+    raise "Unhandled param #{param}" if param == '*args' # TODO handle
+
+    tag = @method_object.tags.find { |t| t.tag_name == 'param' && t.name == param }
+    raise "Unhandled param #{param}" if tag.types.size != 1 # TODO handle
+
+    type = cpp_type(tag.types.first)
+    "#{type} _#{param}_"
   end
 
   def cpp_type(ruby_type)
