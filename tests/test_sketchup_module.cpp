@@ -252,14 +252,25 @@ TEST_SUITE("Sketchup") {
 
     // --- Observer methods ---
 
-    TEST_CASE("add_observer") {
-        // Requires an AppObserver instance
-        // Sketchup::add_observer(some_observer);
-    }
+    TEST_CASE("AppObserver add/remove") {
+        struct TestAppObserver : Sketchup::AppObserver {
+        public:
+            bool expects_called = false;
+            bool expectsStartupModelNotifications() override {
+                expects_called = true;
+                return true;
+            }
+        };
 
-    TEST_CASE("remove_observer") {
-        // Requires an AppObserver instance
-        // Sketchup::remove_observer(some_observer);
+        auto obs = std::make_shared<TestAppObserver>();
+        SketchUpCppAPI::protect([&]() {
+            bool added = Sketchup::add_observer(obs);
+            CHECK(added);
+            CHECK(obs->self != Qnil);
+
+            bool removed = Sketchup::remove_observer(obs);
+            CHECK(removed);
+        });
     }
 
     // --- Registration methods ---
