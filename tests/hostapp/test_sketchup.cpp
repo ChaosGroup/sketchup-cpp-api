@@ -262,7 +262,7 @@ TEST_SUITE("Sketchup") {
             }
         };
 
-        auto obs = std::make_shared<TestAppObserver>();
+        std::shared_ptr<TestAppObserver> obs = std::make_shared<TestAppObserver>();
         SketchUpCppAPI::protect([&]() {
             bool added = Sketchup::add_observer(obs);
             CHECK(added);

@@ -7,4 +7,6 @@ rescue StandardError => e
   STDOUT.flush
 end
 
+# Close all open models without save prompts before quitting
+Sketchup.active_model&.close(true)
 Sketchup.quit
