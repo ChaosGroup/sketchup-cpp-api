@@ -6,11 +6,10 @@ class APIInterface
 
   def self.setup
     ruby_files = Dir.glob("#{__dir__}/ruby-api-stubs/lib/sketchup-api-stubs/stubs/**/*.rb")
-    ruby_override = "#{__dir__}/api_override.rb"
     YARD::Logger.instance.level = YARD::Logger::ERROR
     YARD::Parser::SourceParser.parse(ruby_files)
-    YARD::Parser::SourceParser.parse([ruby_override])
     YARD::Logger.instance.level = YARD::Logger::INFO
+    load "#{__dir__}/api_override.rb"
   end
 
   def self.export(path)

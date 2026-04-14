@@ -1,28 +1,20 @@
-module Sketchup
+# Dynamic fixes for incorrect YARD stubs that don't match runtime behavior.
+# Loaded (not YARD-parsed) by api_interface.rb after parsing the stubs.
 
-  # Class Methods
-
-  # The active_model method returns the currently active SketchUp model. On the
-  # PC, this is the only model that one can have access to via the API, but
-  # Macintosh versions of SketchUp can have multiple models open at once, in
-  # which case the method will return the model that the user currently has
-  # focused.
-  #
-  # @example
-  #   model = Sketchup.active_model
-  #   if !model
-  #     puts "Failure"
-  #   else
-  #     # code acting on the model
-  #   end
-  #
-  # @return [Sketchup::Model, nil] active model object if successful, false if
-  #   unsuccessful
-  #
-  # @version SketchUp 6.0
-  def self.active_model
-  end
-
-  # Setter methods that return nil, not String as the stubs claim.
-
+def fix_return(method_path, types)
+  m = YARD::Registry.at(method_path)
+  return unless m
+  m.docstring.delete_tags(:return)
+  m.docstring.add_tag(YARD::Tags::Tag.new(:return, '', types))
 end
+
+# Sketchup.active_model can return nil
+fix_return 'Sketchup.active_model', ['Sketchup::Model', 'nil']
+
+# Setter methods return nil, not String as the stubs claim
+fix_return 'Sketchup.status_text=', ['nil']
+fix_return 'Sketchup.vcb_label=',   ['nil']
+fix_return 'Sketchup.vcb_value=',   ['nil']
+
+# template= returns Boolean, not String
+fix_return 'Sketchup.template=',    ['Boolean']
