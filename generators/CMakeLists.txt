@@ -1,4 +1,4 @@
-set(HOSTAPP_HPP ${CMAKE_CURRENT_BINARY_DIR}/include/SketchUpCppAPI/HostApp.hpp)
+set(HOSTAPP_HPP ${CMAKE_CURRENT_BINARY_DIR}/include/SketchUpCppAPI/_HostApp.hpp)
 
 find_package(Ruby REQUIRED)
 

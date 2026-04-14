@@ -48,7 +48,6 @@ class APIInterface
     s << '#error "SKETCHUP_VERSION must be defined"' << "\n"
     s << '#endif' << "\n"
     s << "\n"
-    s << '#include <memory>' << "\n"
     s << '#include <concepts>' << "\n"
     s << "\n"
 
@@ -68,10 +67,6 @@ class APIInterface
     # Phase 4: Observer infrastructure
     unless observer_classes.empty?
       s << "\n#{indent}namespace detail {\n\n"
-
-      # Core observer infrastructure (free, klass cache, init)
-      s << observer_core_infrastructure("#{indent}\t")
-      s << "\n"
 
       # Per-observer concepts, trampolines, register functions
       observer_classes.each { |obs| s << obs.infrastructure("#{indent}\t") << "\n\n" }
@@ -100,38 +95,6 @@ class APIInterface
   end
 
   private
-
-  def self.observer_core_infrastructure(indentation)
-    <<~CPP.gsub(/^/, indentation)
-template<typename T>
-void free_observer(void* p) {
-\tauto* sp = static_cast<std::shared_ptr<T>*>(p);
-\tif (auto ptr = sp->get()) {
-\t\tptr->self = Qnil;
-\t}
-\tdelete sp;
-}
-
-template<typename T>
-VALUE& observer_klass_for() {
-\tstatic VALUE klass = Qnil;
-\treturn klass;
-}
-
-template<typename T, typename RegisterFn>
-void init_observer(std::shared_ptr<T>& observer, RegisterFn register_fn) {
-\tVALUE& klass = observer_klass_for<T>();
-\tif (klass == Qnil) {
-\t\tklass = rb_class_new(rb_eval_string(T::ruby_class_name));
-\t\trb_gc_register_address(&klass);
-\t\tregister_fn(klass);
-\t}
-\tauto* sp = new std::shared_ptr<T>(observer);
-\tobserver->self = Data_Wrap_Struct(klass, nullptr, free_observer<T>, sp);
-}
-
-    CPP
-  end
 
   def self.topological_sort_observers(observers)
     by_path = observers.map { |o| [o.full_path, o] }.to_h
