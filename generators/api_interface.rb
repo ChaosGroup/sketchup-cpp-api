@@ -1,5 +1,6 @@
 require_relative 'class_interface'
 require_relative 'module_interface'
+require_relative 'observer_interface'
 
 class APIInterface
 
@@ -17,6 +18,29 @@ class APIInterface
   end
 
   def self.hpp
+    all_classes = YARD::Registry.all(:class).map { |element| ClassInterface.new(element) }
+    all_modules = YARD::Registry.all(:module).map { |element| ModuleInterface.new(element) }
+
+    observer_classes = YARD::Registry.all(:class)
+      .select { |c| ObserverInterface.observer?(c) }
+      .map { |c| ObserverInterface.new(c) }
+
+    # Topologically sort observers so parents come before children
+    observer_classes = topological_sort_observers(observer_classes)
+
+    # Separate observer and non-observer class interfaces
+    observer_class_interfaces = all_classes.select(&:observer?)
+    non_observer_class_interfaces = all_classes.reject(&:observer?)
+
+    # Sort observer class interfaces to match topological order
+    obs_order = observer_classes.map(&:full_path)
+    observer_class_interfaces.sort_by! { |ci|
+      idx = obs_order.index(ci.instance_variable_get(:@class_object).path)
+      idx || 999
+    }
+
+    indent = "\t"
+
     s = ''
     s << '#pragma once' << "\n"
     s << "\n"
@@ -24,33 +48,108 @@ class APIInterface
     s << '#error "SKETCHUP_VERSION must be defined"' << "\n"
     s << '#endif' << "\n"
     s << "\n"
+    s << '#include <memory>' << "\n"
+    s << '#include <concepts>' << "\n"
+    s << "\n"
 
     s << "namespace SketchUpCppAPI::HostApp" << "\n"
     s << "{" << "\n"
 
-    module_interfaces = YARD::Registry.all(:module).map { |element| ModuleInterface.new(element) }
-    class_interfaces = YARD::Registry.all(:class).map { |element| ClassInterface.new(element) }
-    main_indentation = "\t"
+    # Phase 1: Forward declarations
+    all_modules.each { |i| s << i.forward_declaration(indent) << "\n" }
+    all_classes.each { |i| s << i.forward_declaration(indent) << "\n" }
 
-    module_interfaces.each { |interface|
-      s << interface.forward_declaration(main_indentation) << "\n"
-    }
+    # Phase 2: Non-observer class definitions (simple stubs, some with add_observer declarations)
+    non_observer_class_interfaces.each { |i| s << i.definition(indent) << "\n" }
 
-    class_interfaces.each { |interface|
-      s << interface.forward_declaration(main_indentation) << "\n"
-    }
+    # Phase 3: Observer class definitions (topologically sorted so parents first)
+    observer_class_interfaces.each { |i| s << i.definition(indent) << "\n" }
 
-    class_interfaces.each { |interface|
-      s << interface.definition(main_indentation) << "\n"
-    }
+    # Phase 4: Observer infrastructure
+    unless observer_classes.empty?
+      s << "\n#{indent}namespace detail {\n\n"
 
-    module_interfaces.each { |interface|
-      s << interface.definition(main_indentation) << "\n"
+      # Core observer infrastructure (free, klass cache, init)
+      s << observer_core_infrastructure("#{indent}\t")
+      s << "\n"
+
+      # Per-observer concepts, trampolines, register functions
+      observer_classes.each { |obs| s << obs.infrastructure("#{indent}\t") << "\n\n" }
+      s << "#{indent}} // namespace detail\n\n"
+    end
+
+    # Phase 5: Out-of-class add_observer/remove_observer definitions
+    observer_classes.each do |obs|
+      ObserverInterface::OBSERVER_MAP.each do |host_path, obs_path|
+        next unless obs_path == obs.full_path
+        host_obj = YARD::Registry.at(host_path)
+        # Skip modules (handled in module definition phase)
+        next if host_obj&.type == :module
+        s << obs.add_observer_definition(host_path, indent) << "\n\n"
+      end
+    end
+
+    # Phase 6: Module definitions (with methods)
+    all_modules.each { |i|
+      s << i.definition(indent, observer_classes) << "\n"
     }
 
     s << "}" << "\n"
 
     s
+  end
+
+  private
+
+  def self.observer_core_infrastructure(indentation)
+    <<~CPP.gsub(/^/, indentation)
+template<typename T>
+void free_observer(void* p) {
+\tauto* sp = static_cast<std::shared_ptr<T>*>(p);
+\tif (auto ptr = sp->get()) {
+\t\tptr->self = Qnil;
+\t}
+\tdelete sp;
+}
+
+template<typename T>
+VALUE& observer_klass_for() {
+\tstatic VALUE klass = Qnil;
+\treturn klass;
+}
+
+template<typename T, typename RegisterFn>
+void init_observer(std::shared_ptr<T>& observer, RegisterFn register_fn) {
+\tVALUE& klass = observer_klass_for<T>();
+\tif (klass == Qnil) {
+\t\tklass = rb_class_new(rb_eval_string(T::ruby_class_name));
+\t\trb_gc_register_address(&klass);
+\t\tregister_fn(klass);
+\t}
+\tauto* sp = new std::shared_ptr<T>(observer);
+\tobserver->self = Data_Wrap_Struct(klass, nullptr, free_observer<T>, sp);
+}
+
+    CPP
+  end
+
+  def self.topological_sort_observers(observers)
+    by_path = observers.map { |o| [o.full_path, o] }.to_h
+    sorted = []
+    visited = {}
+
+    visit = ->(obs) {
+      return if visited[obs.full_path]
+      visited[obs.full_path] = true
+      parent = obs.parent_observer
+      if parent && by_path[parent.full_path]
+        visit.call(by_path[parent.full_path])
+      end
+      sorted << obs
+    }
+
+    observers.each { |obs| visit.call(obs) }
+    sorted
   end
 
 end
