@@ -33,6 +33,7 @@ class MethodInterface
     begin
       s << "#{indentation}#{function_prefix}#{retval} #{function_name}(#{function_args})" << "\n"
     rescue StandardError => e
+      puts e.message
       return "#{indentation}// #{function_name} not yet supported\n"
     end
     s << "#{indentation}{" << "\n"
@@ -109,12 +110,15 @@ class MethodInterface
   end
 
   def function_param(param, _default)
-    raise "Unhandled param #{param}" if param == '*args' # TODO handle
+    raise "Unhandled overloads for #{@method_object.name.to_s} and param #{param}" if param.start_with?('*') # TODO handle splat
 
     tag = @method_object.tags.find { |t| t.tag_name == 'param' && t.name == param }
-    raise "Unhandled param #{param}" if tag.types.size != 1 # TODO handle
+    raise "No param tag for #{@method_object.name.to_s} and param #{param}" if tag.nil?
+    # raise "No single type for param tag #{@method_object.name.to_s} and param #{param}"|| tag.types.size != 1
 
-    type = cpp_type(tag.types.first)
+    ruby_type = tag.types.first
+    type = cpp_type(ruby_type)
+    raise "Unhandled type #{ruby_type} #{@method_object.name.to_s} and param #{param}" if type.nil?
     "#{type} _#{param}_"
   end
 
@@ -125,13 +129,14 @@ class MethodInterface
     when 'Float' then 'double'
     when 'String' then 'std::string'
     when 'Symbol' then 'const char*'
+    when 'Numeric' then 'double'
     when 'TrueClass', 'FalseClass', 'Boolean', 'false' then 'bool'
-    when 'Array' then 'std::vector<auto>'
+    when 'Array' then 'auto'
     when 'Array(Geom::Point3d, Geom::Point3d)' then 'std::pair<Geom::Point3d, Geom::Point3d>'
     when 'Array(Geom::Point3d, Geom::Vector3d)' then 'std::pair<Geom::Point3d, Geom::Vector3d>'
     when 'Array<String>' then 'std::vector<std::string>'
     when 'Array<Geom::Point3d>' then 'std::vector<Geom::Point3d>'
-    when 'Hash' then 'std::map<auto, auto>'
+    when 'Hash' then 'auto'
     when 'Module' then 'auto'
     when 'Object' then 'Object'
     else

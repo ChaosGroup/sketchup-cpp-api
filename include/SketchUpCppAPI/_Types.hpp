@@ -29,12 +29,30 @@ namespace SketchUpCppAPI
 	template<typename T> requires requires(T t) { t.self; }
 	inline VALUE to_ruby(const T& v) { return v.self; }
 
+	template<typename T>
+	inline VALUE to_ruby(const std::vector<T>& v) {
+		VALUE ary = rb_ary_new_capa(static_cast<long>(v.size()));
+		for (const auto& elem : v)
+			rb_ary_push(ary, to_ruby(elem));
+		return ary;
+	}
+
+	template<typename T1, typename T2>
+	inline VALUE to_ruby(const std::pair<T1, T2>& v) {
+		VALUE ary = rb_ary_new_capa(2);
+		rb_ary_push(ary, to_ruby(v.first));
+		rb_ary_push(ary, to_ruby(v.second));
+		return ary;
+	}
+
 	template<typename T> struct is_optional : std::false_type {};
 	template<typename T> struct is_optional<std::optional<T>> : std::true_type {};
 	template<typename T> struct is_vector : std::false_type {};
 	template<typename T> struct is_vector<std::vector<T>> : std::true_type {};
 	template<typename T> struct is_variant : std::false_type {};
 	template<typename... Ts> struct is_variant<std::variant<Ts...>> : std::true_type {};
+	template<typename T> struct is_pair : std::false_type {};
+	template<typename T1, typename T2> struct is_pair<std::pair<T1, T2>> : std::true_type {};
 
 	template<typename T>
 	inline T from_ruby(VALUE val)
@@ -50,6 +68,12 @@ namespace SketchUpCppAPI
 			for (long i = 0; i < len; i++)
 				result.push_back(from_ruby<typename T::value_type>(rb_ary_entry(val, i)));
 			return result;
+		}
+		else if constexpr (is_pair<T>::value) {
+			return T{
+				from_ruby<typename T::first_type>(rb_ary_entry(val, 0)),
+				from_ruby<typename T::second_type>(rb_ary_entry(val, 1))
+			};
 		}
 		else if constexpr (is_variant<T>::value) {
 			return T{};

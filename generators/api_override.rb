@@ -23,4 +23,6 @@ module Sketchup
   def self.active_model
   end
 
+  # Setter methods that return nil, not String as the stubs claim.
+
 end
