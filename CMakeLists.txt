@@ -60,3 +60,4 @@ install(FILES cmake/SketchUpCppAPIConfig.cmake
 
 enable_testing()
 add_subdirectory(tests)
+add_subdirectory(examples)
